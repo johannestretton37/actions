@@ -1,4 +1,4 @@
-name: Trigger Puppet
+name: Trigger Puppet Test Run
 
 on:
   pull_request:
