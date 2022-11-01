@@ -15,7 +15,9 @@ jobs:
         env:
           URL: 'https://webhook.site/8850c101-12d1-40f4-8604-8a7af1163e74'
           # URL: ${{ github.event.issue.comments_url }}
+          ISSUE: ${{ github.event.issue }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # -H "Authorization: token $GITHUB_TOKEN" \
         run: |
