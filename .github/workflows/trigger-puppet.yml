@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      - performance/**
+      - performance/*
     
 jobs:
   trigger-test-run:
@@ -17,7 +17,6 @@ jobs:
           # URL: ${{ github.event.issue.comments_url }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          PR_SHA: ${{ github.event.pull_request.sha }}
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # -H "Authorization: token $GITHUB_TOKEN" \
         run: |
@@ -25,4 +24,4 @@ jobs:
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
-            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"headSHA\": \"$PR_HEAD_SHA\", \"sha\": \"$PR_SHA\" }"
+            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"sha\": \"$PR_HEAD_SHA\" }"
