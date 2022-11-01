@@ -14,4 +14,18 @@ jobs:
     #   with:
     #     node-version: '18.x'
     #     cache: npm
-    - run: 'echo "Test group ${{ github.event.client_payload.testGroupId }} completed"'
+      - name: 'Echo test group id'
+        run: 'echo "Test group ${{ github.event.client_payload.testGroupId }} completed"'
+      - name: 'Github Script v5 test'
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # issue_number: context.issue.number,
+          script: |
+            github.rest.issues.createComment({
+              issue_number: github.event.client_payload.pullRequestId,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
+            
