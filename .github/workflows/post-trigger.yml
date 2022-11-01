@@ -3,7 +3,7 @@ name: Publish performance report result
 on:
   repository_dispatch:
     types:
-      - test-result
+      - puppet-result
 
 jobs:
   puppet-report:
@@ -14,5 +14,4 @@ jobs:
     #   with:
     #     node-version: '18.x'
     #     cache: npm
-    - run: 'echo "Foo: ${{ github.event.client_payload.foo }}"'
-    
+    - run: 'echo "Test group ${{ github.event.client_payload.testGroupId }} completed"'
