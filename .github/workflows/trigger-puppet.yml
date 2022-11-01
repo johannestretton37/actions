@@ -23,4 +23,4 @@ jobs:
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
-            --data '{ "pullRequestId": "$ISSUE_NUMBER" }'
+            --data "{ \"pullRequestId\": \"$ISSUE_NUMBER\" }"
