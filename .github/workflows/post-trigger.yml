@@ -26,8 +26,6 @@ jobs:
               issue_number: context.payload.client_payload.pullRequestId,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `🕹  Puppet tool has _completed_ **all tests** in group ${{ context.payload.client_payload.testGroupId }}!
-              
-              And here's a new line...`
+              body: "🕹  Puppet tool has _completed_ **all tests** in group ${{ context.payload.client_payload.testGroupId }}!\n\nAnd here's a new line..."
             })
             
