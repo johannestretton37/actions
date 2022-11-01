@@ -1,4 +1,4 @@
-name: Trigger Puppet Test Run
+name: Trigger Puppet
 
 on:
   pull_request:
@@ -23,4 +23,4 @@ jobs:
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
-            --data '{ "pullRequestId": "$ISSUE_NUMBER" }'
+            --data "{ \"pullRequestId\": \"$ISSUE_NUMBER\" }"
