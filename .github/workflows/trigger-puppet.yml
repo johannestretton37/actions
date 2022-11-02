@@ -19,10 +19,8 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          OTHER_CONTEXT: ${{ toJson(context) }}
         run: |
           echo "$GITHUB_CONTEXT"
-          echo "$OTHER_CONTEXT"
       - name: Trigger a test run in 🕹 Puppet
         env:
           # This should be an endpoint in the puppet tool, /api/tests/init
