@@ -11,12 +11,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Call Puppet Tool
+      - name: Build PR branch
+        run: |
+          echo 'TODO: Build this branch to a unique URL and export URL as env var';
+          export DEPLOYED_PR_URL=https://elk.tornberg.me
+          echo "::set-env name=DEPLOYED_PR_URL::$DEPLOYED_PR_URL"
+      - name: Trigger a test run in 🕹 Puppet
         env:
+          # This should be an endpoint in the puppet tool, /api/tests/init
           URL: 'https://webhook.site/8850c101-12d1-40f4-8604-8a7af1163e74'
-          # URL: ${{ github.event.issue.comments_url }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          TEST_TO_RUN: "someTestName"
+          COMPARE_URL: "https://master.branch" # Should this be hard coded?
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # -H "Authorization: token $GITHUB_TOKEN" \
         run: |
@@ -24,4 +31,4 @@ jobs:
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
-            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"sha\": \"$PR_HEAD_SHA\" }"
+            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"sha\": \"$PR_HEAD_SHA\", \"baseUrl\": \"$DEPLOYED_PR_URL\", \"numberOfTests\": 3 }"
