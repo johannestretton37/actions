@@ -19,9 +19,10 @@ jobs:
       - name: Trigger a test run in 🕹 Puppet
         env:
           # This should be an endpoint in the puppet tool, /api/tests/init
-          URL: 'https://b82c-95-192-87-112.eu.ngrok.io/api/tests/init'
+          URL: ${{ secrets.PUPPET_BASE_URL }}/api/tests/init
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          REPOSITORY: ${{ github.repository }}
           TEST_TO_RUN: "startPageToPdp"
           BASE_URL: "https://elk-org.tornberg.me" # Should this be hard coded?
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,4 +32,12 @@ jobs:
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
-            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"sha\": \"$PR_HEAD_SHA\", \"baseUrl\": \"$BASE_URL\", \"compareUrl\": \"$COMPARE_URL\", \"numberOfTests\": 3, \"testName\": \"$TEST_TO_RUN\" }"
+            --data "{ \
+            \"pullRequestId\": \"$PR_NUMBER\", \
+            \"sha\": \"$PR_HEAD_SHA\", \
+            \"repository\": \"$REPOSITORY\", \
+            \"baseUrl\": \"$BASE_URL\", \
+            \"compareUrl\": \"$COMPARE_URL\", \
+            \"numberOfTests\": 3, \
+            \"testName\": \"$TEST_TO_RUN\" \
+            }"
