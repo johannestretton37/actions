@@ -13,9 +13,9 @@ jobs:
     steps:
       - name: Build PR branch
         run: |
-          echo 'TODO: Build this branch to a unique URL and export URL as env var';
-          export DEPLOYED_PR_URL=https://elk.tornberg.me
-          echo "baseUrl=$DEPLOYED_PR_URL" >> $GITHUB_ENV
+          echo 'TODO: Build this branch to a unique URL and store URL as env var';
+          DEPLOYED_PR_URL=https://elk.tornberg.me
+          echo "BASE_URL=$DEPLOYED_PR_URL" >> $GITHUB_ENV
       - name: Trigger a test run in 🕹 Puppet
         env:
           # This should be an endpoint in the puppet tool, /api/tests/init
@@ -23,7 +23,6 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           TEST_TO_RUN: "someTestName"
-          BASE_URL: ${{ env.baseUrl }}
           COMPARE_URL: "https://master.branch" # Should this be hard coded?
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # -H "Authorization: token $GITHUB_TOKEN" \
