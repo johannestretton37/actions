@@ -23,7 +23,7 @@ jobs:
           URL: 'https://f657-95-192-117-41.eu.ngrok.io/api/tests/init'
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          TEST_TO_RUN: "someTestName"
+          TEST_TO_RUN: "startPageToPdp"
           BASE_URL: "https://elk-org.tornberg.me" # Should this be hard coded?
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # -H "Authorization: token $GITHUB_TOKEN" \
@@ -32,4 +32,4 @@ jobs:
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
-            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"sha\": \"$PR_HEAD_SHA\", \"baseUrl\": \"$BASE_URL\", \"compareUrl\": \"$COMPARE_URL\", \"numberOfTests\": 3 }"
+            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"sha\": \"$PR_HEAD_SHA\", \"baseUrl\": \"$BASE_URL\", \"compareUrl\": \"$COMPARE_URL\", \"numberOfTests\": 3, \"testName\": \"$TEST_TO_RUN\" }"
