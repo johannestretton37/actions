@@ -26,6 +26,8 @@ jobs:
           TEST_TO_RUN: "startPageToPdp"
           MESS: ${{ github.event.pull_request.message }}
           HEAD_MESS: ${{ github.event.pull_request.head.message }}
+          MESS_COMMIT: ${{ github.event.pull_request.commit.message }}
+          HEAD_MESS_COMMIT: ${{ github.event.pull_request.head.commit.message }}
           BASE_URL: "https://elk-org.tornberg.me" # Should this be hard coded?
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # -H "Authorization: token $GITHUB_TOKEN" \
