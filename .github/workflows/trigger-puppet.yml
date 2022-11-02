@@ -15,7 +15,7 @@ jobs:
         run: |
           echo 'TODO: Build this branch to a unique URL and export URL as env var';
           export DEPLOYED_PR_URL=https://elk.tornberg.me
-          echo "::set-env name=DEPLOYED_PR_URL::$DEPLOYED_PR_URL"
+          echo "baseUrl=$DEPLOYED_PR_URL" >> $GITHUB_ENV
       - name: Trigger a test run in 🕹 Puppet
         env:
           # This should be an endpoint in the puppet tool, /api/tests/init
@@ -23,6 +23,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           TEST_TO_RUN: "someTestName"
+          BASE_URL: ${{ env.baseUrl }}
           COMPARE_URL: "https://master.branch" # Should this be hard coded?
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # -H "Authorization: token $GITHUB_TOKEN" \
@@ -31,4 +32,4 @@ jobs:
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
-            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"sha\": \"$PR_HEAD_SHA\", \"baseUrl\": \"$DEPLOYED_PR_URL\", \"numberOfTests\": 3 }"
+            --data "{ \"pullRequestId\": \"$PR_NUMBER\", \"sha\": \"$PR_HEAD_SHA\", \"baseUrl\": \"$BASE_URL\", \"numberOfTests\": 3 }"
