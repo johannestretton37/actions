@@ -19,7 +19,7 @@ jobs:
       - name: Trigger a test run in 🕹 Puppet
         env:
           # This should be an endpoint in the puppet tool, /api/tests/init
-          URL: ${{ secrets.PUPPET_BASE_URL }}/api/tests/init'
+          URL: ${{ secrets.PUPPET_BASE_URL }}/api/tests/init
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           REPOSITORY: ${{ github.repository }}
