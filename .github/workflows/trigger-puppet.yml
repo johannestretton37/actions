@@ -16,23 +16,13 @@ jobs:
           echo 'TODO: Build this branch to a unique URL and store URL as env var';
           export DEPLOYED_PR_URL=https://elk.tornberg.me
           echo "COMPARE_URL=$DEPLOYED_PR_URL" >> $GITHUB_ENV
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
       - name: Trigger a test run in 🕹 Puppet
         env:
           # This should be an endpoint in the puppet tool, /api/tests/init
-          # URL: 'https://webhook.site/8850c101-12d1-40f4-8604-8a7af1163e74'
           URL: 'https://b82c-95-192-87-112.eu.ngrok.io/api/tests/init'
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           TEST_TO_RUN: "startPageToPdp"
-          MESS: ${{ github.event.pull_request.message }}
-          HEAD_MESS: ${{ github.event.pull_request.head.message }}
-          MESS_COMMIT: ${{ github.event.pull_request.commit.message }}
-          HEAD_MESS_COMMIT: ${{ github.event.pull_request.head.commit.message }}
           BASE_URL: "https://elk-org.tornberg.me" # Should this be hard coded?
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # -H "Authorization: token $GITHUB_TOKEN" \
