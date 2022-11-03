@@ -1,11 +1,16 @@
 name: Pull Request base image CI/CD
 on:
   pull_request:
-    branches: [performance/**]
-    types: [opened]
+    branches: [main, master] # PR targets main/master branch
+    types: [opened] # Only triggered when PR is created
 jobs:
-  build:
+  debug-shas:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.event.pull_request.head.sha }}
       - run: echo ${{ GITHUB_SHA }}
+  second-job:
+    if:  startsWith(github.head_ref, 'performance/') # Only run if PR branch has "performance/" prefix
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The head of this PR starts with 'performance/'"
