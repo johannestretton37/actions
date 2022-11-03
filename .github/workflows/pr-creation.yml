@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.event.pull_request.head.sha }}
-      - run: echo ${{ github.event.GITHUB_SHA }}
+      - run: echo ${{ github.GITHUB_SHA }}
+      - run: echo ${{ secrets.GITHUB_SHA }}
   second-job:
     if:  startsWith(github.head_ref, 'performance/') # Only run if PR branch has "performance/" prefix
     runs-on: ubuntu-latest
