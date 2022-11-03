@@ -1,16 +1,18 @@
-name: Pull Request base image CI/CD
+name: Pull request base image builder
 on:
   pull_request:
     branches: [main, master] # PR targets main/master branch
     types: [opened] # Only triggered when PR is created
 jobs:
-  debug-shas:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo head ${{ github.event.pull_request.head.sha }}
-      - run: echo base ${{ github.event.pull_request.base.sha }}
-  second-job:
+  build-base-image:
     if:  startsWith(github.head_ref, 'performance/') # Only run if PR branch has "performance/" prefix
     runs-on: ubuntu-latest
+    env:
+      PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
     steps:
-      - run: echo "The head of this PR starts with 'performance/'"
+      - name: Build base image
+        run: |
+          echo "TODO: - build and deploy an image so we can compare with something. \
+          git should checkout this commit -> $PR_BASE_SHA"
+
