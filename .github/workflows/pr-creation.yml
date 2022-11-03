@@ -8,8 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.event.pull_request.head.sha }}
-      - run: echo ${{ github.GITHUB_SHA }}
-      - run: echo ${{ secrets.GITHUB_SHA }}
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
   second-job:
     if:  startsWith(github.head_ref, 'performance/') # Only run if PR branch has "performance/" prefix
     runs-on: ubuntu-latest
