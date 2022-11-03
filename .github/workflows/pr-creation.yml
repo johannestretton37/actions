@@ -17,7 +17,7 @@ jobs:
           git should checkout this commit -> $PR_BASE_SHA"
       - uses: actions/checkout@v3
         with:
-          ref: $PR_BASE_SHA
+          ref: ${{ $PR_BASE_SHA }}
       - name: Debug
         run: ls
 
