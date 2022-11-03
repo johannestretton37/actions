@@ -1,0 +1,13 @@
+name: Pull Request base image CI/CD
+on:
+  pull_request:
+    branches: 
+      - "performance/*"
+    types:
+      - "opened"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.pull_request.head.sha }}
+      - run: echo ${{ GITHUB_SHA }}
