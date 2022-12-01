@@ -17,7 +17,7 @@ jobs:
         - name: Set variables
           env:
             WHAT: ${{ github.event.comment.body }} | grep -oE '(pr-[0-9]*)'
-          uses: ./.github/workflows/pr-build.yaml
+          uses: .github/workflows/pr-build.yaml
           with:
             pr-number: ${{ github.event.comment.body }} | grep -oE '(pr-[0-9]*)'
             stack-name: pr-$WHAT
