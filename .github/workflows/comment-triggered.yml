@@ -14,7 +14,7 @@ jobs:
       if: ${{ startsWith(github.event.comment.body, 'deploy') }}
       uses: ./.github/workflows/pr-build.yaml
       with:
-        pr-number: ${{ github.event.comment.body }}
+        # pr-number: ${{ github.event.comment.body }}
         stack-name: $(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]*)')
 
 
