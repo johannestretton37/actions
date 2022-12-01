@@ -16,15 +16,11 @@ jobs:
     env:
       PR_NUMBER: ${{ inputs.pr-number }}
       STACK_NAME: ${{ inputs.stack-name }}
-      HEJ: ${{ github.event.comment.body }}
-      GREP_IT: ${{ github.event.comment.body }} | grep -oE '(pr-[0-9]*)'
     steps:
       - name: set vars
         run: echo "STACK_NAME="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]*)') >> $GITHUB_ENV
       - name: debug it
         run: |
-          echo HEJ $HEJ
           echo PR_NUMBER $PR_NUMBER
           echo STACK_NAME $STACK_NAME
-          echo GREP_IT $GREP_IT
         
