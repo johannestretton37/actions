@@ -1,0 +1,25 @@
+name: Reusable - Pull Request build and deploy
+
+env:
+  TEST_LOCAL: local-env
+
+on:
+  workflow_call:
+    inputs:
+      pr-number:
+        required: true
+        type: string
+      stack-name:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PR_NUMBER: ${{ inputs.pr-number }}
+      STACK_NAME: ${{ inputs.stack-name }}
+    steps:
+      - name: debug it
+        run: echo success? ${{ $PR_NUMBER }} and ${{ $STACK_NAME }} and ${{ TEST_LOCAL }}
+        

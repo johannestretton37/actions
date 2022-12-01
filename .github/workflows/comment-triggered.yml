@@ -1,18 +1,20 @@
-name: Do something on comments
+name: Trigger - PR build on comment
+
+env:
+  DOCKER_SERVER: registry.knatofs.se
+  PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
 on:
   issue_comment:
     types:
       - created
+
 jobs:
-  deploy-stack:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.comment.body == 'deploy'}}
-    env:
-      BRANCH: ${{ github.ref_name }}
-      PR_NUMBER: ${{ github.event.issue.number }}
-    steps:
-      - name: Test something
-        run: |
-          echo "PullRequest nr $PR_NUMBER";
-          echo "Branch name $BRANCH";
+  call-pr-build:
+    if: ${{ startsWith(github.event.comment.body, 'deploy') }}
+    uses: ./github/workflows/pr-build.yaml
+    with:
+      pr-number: ${{ github.event.comment.body }} | grep -oE '(pr-[0-9]*)'
+      stack-name: pr-${{ github.event.number }}
+
+
