@@ -23,4 +23,5 @@ jobs:
         run: |
           echo PR_NUMBER $PR_NUMBER
           echo STACK_NAME $STACK_NAME
+          echo STACK_NAME_1 $STACK_NAME_1
         
