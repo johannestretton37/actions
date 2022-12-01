@@ -5,13 +5,13 @@ env:
 
 on:
   workflow_call:
-    inputs:
-      pr-number:
-        required: true
-        type: string
-      stack-name:
-        required: true
-        type: string
+    # inputs:
+    #   pr-number:
+    #     required: true
+    #     type: string
+    #   stack-name:
+    #     required: true
+    #     type: string
 
 jobs:
   build:
