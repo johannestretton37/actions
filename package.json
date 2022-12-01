@@ -1,0 +1,23 @@
+{
+  "name": "actions",
+  "version": "1.0.0",
+  "description": "Let's go 🚀",
+  "main": "index.js",
+  "scripts": {
+    "test:lh": "LHCI_COLLECT__URL='https://pr-1337.example.com' lhci autorun"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johannestretton37/actions.git"
+  },
+  "keywords": [],
+  "author": "Johannes Borgström",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johannestretton37/actions/issues"
+  },
+  "homepage": "https://github.com/johannestretton37/actions#readme",
+  "devDependencies": {
+    "@lhci/cli": "^0.10.0"
+  }
+}
