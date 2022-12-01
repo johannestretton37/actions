@@ -2,22 +2,27 @@ name: Reusable - Pull Request build and deploy
 
 on:
   workflow_call:
-    # inputs:
-    #   pr-number:
-    #     required: true
-    #     type: string
-    #   stack-name:
-    #     required: true
-    #     type: string
+    inputs:
+      pr-number:
+        required: true
+        type: string
+      stack-name:
+        required: true
+        type: string
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # PR_NUMBER: ${{ inputs.pr-number }}
-      # STACK_NAME: ${{ inputs.stack-name }}
+      PR_NUMBER: ${{ inputs.pr-number }}
+      STACK_NAME: ${{ inputs.stack-name }}
       HEJ: ${{ github.event.comment.body }}
+      GREP_IT: ${{ github.event.comment.body }} | grep -oE '(pr-[0-9]*)'
     steps:
       - name: debug it
-        run: echo success? $HEJ
+        run: |
+          echo HEJ $HEJ
+          echo PR_NUMBER $PR_NUMBER
+          echo STACK_NAME $STACK_NAME
+          echo GREP_IT $GREP_IT
         

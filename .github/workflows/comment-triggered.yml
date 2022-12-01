@@ -11,10 +11,10 @@ on:
 
 jobs:
   call-pr-build:
-      # if: ${{ startsWith(github.event.comment.body, 'deploy') }}
+      if: ${{ startsWith(github.event.comment.body, 'deploy') }}
       uses: ./.github/workflows/pr-build.yaml
-      # with:
-      #   pr-number: ${{ github.event.comment.body }} | grep -oE '(pr-[0-9]*)'
-      #   stack-name: pr-$WHAT
+      with:
+        pr-number: ${{ github.event.comment.body }} | grep -oE '(pr-[0-9]*)'
+        stack-name: pr-$WHAT
 
 
