@@ -1,8 +1,5 @@
 name: Reusable - Pull Request build and deploy
 
-env:
-  TEST_LOCAL: local-env
-
 on:
   workflow_call:
     # inputs:
@@ -22,5 +19,5 @@ jobs:
       HEJ: ${{ github.event.comment.body }}
     steps:
       - name: debug it
-        run: echo success? $HEJ and $TEST_LOCAL
+        run: echo success? $HEJ
         
