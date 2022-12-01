@@ -19,6 +19,7 @@ jobs:
     env:
       PR_NUMBER: ${{ inputs.pr-number }}
       STACK_NAME: ${{ inputs.stack-name }}
+      HEJ: ${{ github.event.comment.body }}
     steps:
       - name: debug it
         run: echo success? $PR_NUMBER and $STACK_NAME and $TEST_LOCAL
