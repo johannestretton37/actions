@@ -20,7 +20,7 @@ jobs:
       - name: Add values to outputs
         id: add-values
         run: |
-          echo "pr-number="$(echo "${{ github.event.comment.body }}" | grep -oE 'pr-([0-9]+)') >> $GITHUB_OUTPUT
+          echo "pr-number="$(echo "${{ github.event.comment.body }}" | grep -oE 'pr-([0-9]+)' | sed 's/pr-//') >> $GITHUB_OUTPUT
           echo "stack-name="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]+)') >> $GITHUB_OUTPUT
   call-pr-build:
       needs: set-vars
