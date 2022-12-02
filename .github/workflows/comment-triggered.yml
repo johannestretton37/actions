@@ -4,6 +4,8 @@ env:
   DOCKER_SERVER: registry.knatofs.se
   PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
+# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-when-a-pull-request-merges-1
+
 on:
   issue_comment:
     types:
@@ -22,6 +24,15 @@ jobs:
         run: |
           echo "pr-number="$(echo "${{ github.event.comment.body }}" | grep -oE 'pr-([0-9]+)' | sed 's/pr-//') >> $GITHUB_OUTPUT
           echo "stack-name="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]+)') >> $GITHUB_OUTPUT
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/johannestretton37/actions/pulls/${{ steps.add-values.outputs.pr-number }}
+          owner: johannestretton37
+          repo: actions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
   call-pr-build:
       needs: set-vars
       uses: ./.github/workflows/pr-build.yaml
@@ -29,5 +40,4 @@ jobs:
       with:
         pr-number: ${{ needs.set-vars.outputs.pr-number }}
         stack-name: ${{ needs.set-vars.outputs.stack-name }}
-
 
