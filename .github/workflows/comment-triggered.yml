@@ -30,7 +30,7 @@ jobs:
           route: GET /repos/johannestretton37/actions/pulls/${{ steps.add-values.outputs.pr-number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo PR sha: ${{ steps.get-pr.outputs.data.head.sha }}"
+      - run: "echo PR sha: ${{ toJson(steps.get-pr.outputs.data) }}"
   call-pr-build:
       needs: set-vars
       uses: ./.github/workflows/pr-build.yaml
