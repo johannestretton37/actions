@@ -15,15 +15,19 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       pr-number: ${{ steps.add-values.outputs.pr-number }}
+      stack-name: ${{ steps.add-values.outputs.stack-name }}
     steps:
       - name: Add values to outputs
         id: add-values
-        run: echo "pr-number="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]*)') >> $GITHUB_OUTPUT
+        run: |
+          echo "pr-number="$(echo "${{ github.event.comment.body }}" | grep -oE 'pr-([0-9]+)') >> $GITHUB_OUTPUT
+          echo "stack-name="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]+)') >> $GITHUB_OUTPUT
   call-pr-build:
       needs: set-vars
       uses: ./.github/workflows/pr-build.yaml
       if: ${{ startsWith(github.event.comment.body, 'deploy') }}
       with:
         pr-number: ${{ needs.set-vars.outputs.pr-number }}
+        stack-name: ${{ needs.set-vars.outputs.stack-name }}
 
 
