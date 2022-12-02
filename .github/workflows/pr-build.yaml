@@ -17,7 +17,10 @@ jobs:
       PR_NUMBER: ${{ inputs.pr-number }}
       STACK_NAME: ${{ inputs.stack-name }}
     steps:
-      - name: debug it
+      - uses: actions/checkout@v3
+      - name: debug git sha
+        run: git rev-parse --short HEAD
+      - name: debug inputs
         run: |
           echo "PR_NUMBER from previous step -> $PR_NUMBER";
           echo "STACK_NAME from previous step -> $STACK_NAME";
