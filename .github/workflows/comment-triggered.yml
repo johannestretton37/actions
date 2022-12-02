@@ -18,6 +18,7 @@ jobs:
     outputs:
       pr-number: ${{ steps.add-values.outputs.pr-number }}
       stack-name: ${{ steps.add-values.outputs.stack-name }}
+      git-sha: ${{ fromJson(steps.get-pr.outputs.data).head.sha }}
     steps:
       - name: Add values to outputs
         id: add-values
@@ -31,7 +32,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo PR sha: ${{ fromJson(steps.get-pr.outputs.data).head.sha }}"
-      - run: "echo data: ${{ steps.get-pr.outputs.data }}"
   call-pr-build:
       needs: set-vars
       uses: ./.github/workflows/pr-build.yaml
@@ -39,4 +39,5 @@ jobs:
       with:
         pr-number: ${{ needs.set-vars.outputs.pr-number }}
         stack-name: ${{ needs.set-vars.outputs.stack-name }}
+        git-sha: ${{ needs.set-vars.outputs.git-sha }}
 
