@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: hard code
-        run: echo "STACK_NAME_1="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]*)') >> $GITHUB_ENV
+        run: echo "STACK_NAME_1="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]*)') >> $GITHUB_OUTPUT
   call-pr-build:
       needs: set-vars
       if: ${{ startsWith(github.event.comment.body, 'deploy') }}
       uses: ./.github/workflows/pr-build.yaml
       with:
-        pr-number: ${{ github.STACK_NAME_1 }}
+        pr-number: ${{ needs.set-vars.outputs.STACK_NAME_1 }}
         stack-name: ${{ github.event.comment.body }}
 
 
