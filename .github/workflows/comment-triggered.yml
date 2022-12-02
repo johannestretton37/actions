@@ -11,19 +11,18 @@ on:
 
 jobs:
   set-vars:
+    if: ${{ startsWith(github.event.comment.body, 'deploy') }}
     runs-on: ubuntu-latest
     outputs:
-      pr-number: ${{ steps.hard-code.outputs.pr-number }}
+      pr-number: ${{ steps.add-values.outputs.pr-number }}
     steps:
-      - name: hard code
-        id: hard-code
+      - name: Add values to outputs
+        id: add-values
         run: echo "pr-number="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]*)') >> $GITHUB_OUTPUT
   call-pr-build:
       needs: set-vars
-      if: ${{ startsWith(github.event.comment.body, 'deploy') }}
       uses: ./.github/workflows/pr-build.yaml
       with:
         pr-number: ${{ needs.set-vars.outputs.pr-number }}
-        stack-name: ${{ github.event.comment.body }}
 
 
