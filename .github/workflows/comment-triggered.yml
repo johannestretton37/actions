@@ -20,6 +20,8 @@ jobs:
       stack-name: ${{ steps.add-values.outputs.stack-name }}
       git-sha: ${{ fromJson(steps.get-pr.outputs.data).head.sha }}
     steps:
+      - name: debug event
+        run: echo ${{ toJson(github.event) }}
       - name: Add values to outputs
         id: add-values
         run: |
