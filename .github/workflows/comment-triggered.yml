@@ -16,30 +16,22 @@ jobs:
     if: ${{ startsWith(github.event.comment.body, 'deploy') }}
     runs-on: ubuntu-latest
     outputs:
-      pr-number: ${{ steps.add-values.outputs.pr-number }}
-      stack-name: ${{ steps.add-values.outputs.stack-name }}
       git-sha: ${{ fromJson(steps.get-pr.outputs.data).head.sha }}
     steps:
-      - name: debug event
-        run: echo ${{ toJson(github.event) }}
-      - name: Add values to outputs
-        id: add-values
-        run: |
-          echo "pr-number="$(echo "${{ github.event.comment.body }}" | grep -oE 'pr-([0-9]+)' | sed 's/pr-//') >> $GITHUB_OUTPUT
-          echo "stack-name="$(echo "${{ github.event.comment.body }}" | grep -oE '(pr-[0-9]+)') >> $GITHUB_OUTPUT
-      - uses: octokit/request-action@v2.x
+      - name: debug event                     #
+        run: echo ${{ toJson(github.event) }} #
+      - name: get pull request info
         id: get-pr
-        with:
-          route: GET /repos/johannestretton37/actions/pulls/${{ steps.add-values.outputs.pr-number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo PR sha: ${{ fromJson(steps.get-pr.outputs.data).head.sha }}"
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/johannestretton37/actions/pulls/${{ github.event.issue.number }}
   call-pr-build:
       needs: set-vars
       uses: ./.github/workflows/pr-build.yaml
       if: ${{ startsWith(github.event.comment.body, 'deploy') }}
       with:
-        pr-number: ${{ needs.set-vars.outputs.pr-number }}
-        stack-name: ${{ needs.set-vars.outputs.stack-name }}
+        pr-number: ${{ github.event.issue.number }}
         git-sha: ${{ needs.set-vars.outputs.git-sha }}
 

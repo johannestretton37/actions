@@ -6,9 +6,6 @@ on:
       pr-number:
         required: true
         type: string
-      stack-name:
-        required: true
-        type: string
       git-sha:
         required: true
         type: string
@@ -18,13 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PR_NUMBER: ${{ inputs.pr-number }}
-      STACK_NAME: ${{ inputs.stack-name }}
       GIT_SHA: ${{ inputs.git-sha }}
     steps:
       - uses: actions/checkout@v3
       - name: debug inputs
         run: |
           echo "PR_NUMBER from previous step -> $PR_NUMBER";
-          echo "STACK_NAME from previous step -> $STACK_NAME";
           echo "GIT_SHA from previous step -> $GIT_SHA";
         
