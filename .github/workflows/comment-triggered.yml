@@ -18,8 +18,6 @@ jobs:
     outputs:
       git-sha: ${{ fromJson(steps.get-pr.outputs.data).head.sha }}
     steps:
-      - name: debug event                     #
-        run: echo ${{ toJson(github.event) }} #
       - name: get pull request info
         id: get-pr
         env:
