@@ -13,6 +13,6 @@ jobs:
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
-          const script = require('../../testing.js');
+          const script = require('./testing.js');
           await script({github, context});
             
