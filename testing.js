@@ -8,5 +8,5 @@ module.exports = async ({ github, context }) => {
   // });
   // console.log('commit:', commit);
   // core.exportVariable('author', commit.data.commit.author.email);
-  return context.payload.client_payload.value;
+  return `${meta.data.actions.length} ip addresses`;
 };
