@@ -1,12 +1,12 @@
-# performance-tests:
-  #   needs: deploy
-  #   if:  startsWith(github.head_ref, 'feature/NGRC-48986')
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     LHCI_COLLECT__URL: ${{ needs.deploy.outputs.url }}
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Run Lighthouse performance tests
-  #       run: |
-  #         npm i -g @lhci/cli@0.10.x
-  #         lhci autorun
+performance-tests:
+    needs: deploy
+    if:  startsWith(github.head_ref, 'feature/NGRC-48986')
+    runs-on: ubuntu-latest
+    env:
+      LHCI_COLLECT__URL: ${{ needs.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Lighthouse performance tests
+        run: |
+          npm i -g @lhci/cli@0.10.x
+          lhci autorun

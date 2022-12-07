@@ -1,0 +1,20 @@
+name: ip range check
+
+on:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Github Script v5 test'
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        # issue_number: context.issue.number,
+        script: |
+          github.rest.meta.get({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          })
+            

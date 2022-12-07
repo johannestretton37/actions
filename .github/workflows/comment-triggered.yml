@@ -32,4 +32,3 @@ jobs:
       with:
         pr-number: ${{ github.event.issue.number }}
         git-sha: ${{ needs.set-vars.outputs.git-sha }}
-

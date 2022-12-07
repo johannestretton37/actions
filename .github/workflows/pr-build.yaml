@@ -22,4 +22,3 @@ jobs:
         run: |
           echo "PR_NUMBER from previous step -> $PR_NUMBER";
           echo "GIT_SHA from previous step -> $GIT_SHA";
-        
