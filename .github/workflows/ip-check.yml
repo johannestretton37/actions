@@ -14,5 +14,6 @@ jobs:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
           const script = require('./testing.js');
-          await script({github, context});
+          const result = await script({github, context});
+          console.log(result);
             
