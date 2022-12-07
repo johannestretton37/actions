@@ -7,13 +7,12 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: 'Github Script v5 test'
       uses: actions/github-script@v6
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
-          github.rest.meta.get({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-          })
+          const script = require('../../testing.js');
+          await script({github, context});
             
