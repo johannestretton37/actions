@@ -7,7 +7,8 @@ jobs:
       steps:
       - name: display info
         run: |
-          echo -e "## Pinocchio :lying_face: URLs (Dev)" >> $GITHUB_STEP_SUMMARY
+          echo -e "## Pinocchio :lying_face: URLs (Dev)\n
+          line 2" >> $GITHUB_STEP_SUMMARY
   nope:
     if: "!endsWith(github.actor, '[bot]')"
     runs-on: ubuntu-latest
