@@ -5,10 +5,22 @@ jobs:
   echoer:
       runs-on: ubuntu-latest
       steps:
+      - name: deploy
+        id: rollout
+        run: |
+          echo urlsDict='{"dk": "https://pinocchio-dk.elkds-dev.elkjop.com","fi": "https://pinocchio-fi.elkds-dev.elkjop.com","no": "https://pinocchio-no.elkds-dev.elkjop.com","se": "https://pinocchio-se.elkds-dev.elkjop.com"}' >> $GITHUB_OUTPUT
       - name: display info
         run: |
           echo -e "## Pinocchio :lying_face: URLs (Dev)\n
-          line 2" >> $GITHUB_STEP_SUMMARY
+          [Admin NO :norway:](${{ fromJSON(steps.rollout.outputs.urlsDict).no }}/admin)
+          [Proxy NO :norway:](${{ fromJSON(steps.rollout.outputs.urlsDict).no }})\n
+          [Admin SE :sweden:](${{ fromJSON(steps.rollout.outputs.urlsDict).se }}/admin)
+          [Proxy SE :sweden:](${{ fromJSON(steps.rollout.outputs.urlsDict).se }})\n
+          [Admin DK :denmark:](${{ fromJSON(steps.rollout.outputs.urlsDict).dk }}/admin)
+          [Proxy DK :denmark:](${{ fromJSON(steps.rollout.outputs.urlsDict).dk }})\n
+          [Admin FI :finland:](${{ fromJSON(steps.rollout.outputs.urlsDict).fi }}/admin)
+          [Proxy FI :finland:](${{ fromJSON(steps.rollout.outputs.urlsDict).fi }})" >> $GITHUB_STEP_SUMMARY
+
   nope:
     if: "!endsWith(github.actor, '[bot]')"
     runs-on: ubuntu-latest
@@ -22,11 +34,3 @@ jobs:
       - name: does end with bot
         run: echo "Actor does not end with bot"
 
-          # [Admin NO :norway:](${{ fromJSON(steps.rollout.outputs.urlsDict).no }}/admin)
-          # [Proxy NO :norway:](${{ fromJSON(steps.rollout.outputs.urlsDict).no }})\n
-          # [Admin SE :sweden:](${{ fromJSON(steps.rollout.outputs.urlsDict).se }}/admin)
-          # [Proxy SE :sweden:](${{ fromJSON(steps.rollout.outputs.urlsDict).se }})\n
-          # [Admin DK :denmark:](${{ fromJSON(steps.rollout.outputs.urlsDict).dk }}/admin)
-          # [Proxy DK :denmark:](${{ fromJSON(steps.rollout.outputs.urlsDict).dk }})\n
-          # [Admin FI :finland:](${{ fromJSON(steps.rollout.outputs.urlsDict).fi }}/admin)
-          # [Proxy FI :finland:](${{ fromJSON(steps.rollout.outputs.urlsDict).fi }})" >> $GITHUB_STEP_SUMMARY
