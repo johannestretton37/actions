@@ -5,10 +5,13 @@ jobs:
   echoer:
       runs-on: ubuntu-latest
       steps:
+      - name: joke
+        run: |
+          echo $(curl -H "Accept: text/plain" https://icanhazdadjoke.com) >> $GITHUB_STEP_SUMMARY
       - name: deploy
         id: rollout
         run: |
-          echo urlsDict='{"dk": "https://pinocchio-dk.elkds-dev.elkjop.com","fi": "https://pinocchio-fi.elkds-dev.elkjop.com","no": "https://pinocchio-no.elkds-dev.elkjop.com","se": "https://pinocchio-se.elkds-dev.elkjop.com"}' >> $GITHUB_OUTPUT
+          echo urlsDict='{"dk": "https://pinocchio-dk.elkds-dev.example.com","fi": "https://pinocchio-fi.elkds-dev.example.com","no": "https://pinocchio-no.elkds-dev.example.com","se": "https://pinocchio-se.elkds-dev.example.com"}' >> $GITHUB_OUTPUT
       - name: display info
         run: |
           echo -e "## Pinocchio :lying_face: URLs (Dev)\n
