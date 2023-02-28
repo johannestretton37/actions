@@ -2,12 +2,15 @@ on:
   push:
 
 jobs:
-  echoer:
+  waiting:
       runs-on: ubuntu-latest
       steps:
       - name: joke
         run: |
           echo $(curl -H "Accept: text/plain" https://icanhazdadjoke.com) >> $GITHUB_STEP_SUMMARY
+  echoer:
+      runs-on: ubuntu-latest
+      steps:
       - name: deploy
         id: rollout
         run: |
