@@ -2,10 +2,19 @@ on:
   push:
 
 jobs:
+  conditions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: something-changed
+        run: $(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) > 0
+      - name: something-changed-if
+        if: $(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) > 0
+        run: echo changed files $(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c)
   waiting:
       runs-on: ubuntu-latest
       steps:
       - name: joke
+        continue-on-error: true
         run: |
           echo $(curl -H "Accept: text/plain" https://icanhazdadjoke.com) >> $GITHUB_STEP_SUMMARY
   echoer:
