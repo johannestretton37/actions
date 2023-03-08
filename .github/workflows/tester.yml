@@ -5,6 +5,8 @@ jobs:
   conditions:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
       - name: something-changed
         run: CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) >> $GITHUB_ENV
       - name: something-changed-if
