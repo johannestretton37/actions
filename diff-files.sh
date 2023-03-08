@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# echo "CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep ^$1\/ -c)" >> $GITHUB_ENV;
-
 REGEX_STR=""
 while getopts ":p::" arg; do
   case "${arg}" in
@@ -9,11 +7,10 @@ while getopts ":p::" arg; do
       if [[ $OPTIND > 3 ]]; then
         REGEX_STR+="|"
       fi
-      REGEX_STR+="^$OPTARG\/"
+      REGEX_STR+="^$(echo $OPTARG | sed -E 's/.?\///')\/"
       ;;
   esac
 done
-
 echo $REGEX_STR;
-echo "CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep $REGEX_STR -c)";
-#  >> $GITHUB_ENV;
+
+echo "CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | egrep $REGEX_STR -c)"; # >> $GITHUB_ENV;

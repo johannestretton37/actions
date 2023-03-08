@@ -1,0 +1,17 @@
+on:
+  push:
+jobs:
+  checkSha:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: get_runs
+        with:
+          route: GET /repos/johannestretton37/actions/actions/runs
+          owner: octokit
+          repo: request-action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo Release found: '${{ steps.get_runs.outputs.data }}'"
+      - run: "echo Release could not be found. Request failed with status '${{ steps.get_runs.outputs.status }}'"
+        if: ${{ failure() }}

@@ -10,7 +10,7 @@ jobs:
         with:
           fetch-depth: 2
       - name: Diff files in apps dir
-        run: ./diff-files.sh apps
+        run: ./diff-files.sh -p apps
       - name: Something has changed
         continue-on-error: true
         if: ${{ env.CHANGED_FILES > 0 }}
