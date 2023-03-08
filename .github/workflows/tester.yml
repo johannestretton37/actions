@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: something-changed
-        run: $(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) > 0
+        run: CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) >> $GITHUB_ENV
       - name: something-changed-if
-        if: ${{ $(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) > 0 }}
+        if: ${{ env.CHANGED_FILES > 0 }}
         run: echo changed files $(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c)
   waiting:
       runs-on: ubuntu-latest
