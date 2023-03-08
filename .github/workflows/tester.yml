@@ -19,7 +19,7 @@ jobs:
   waiting:
       runs-on: ubuntu-latest
       steps:
-      - name: joke
+      - name: jokez
         continue-on-error: true
         run: |
           echo $(curl -H "Accept: text/plain" https://icanhazdadjoke.com) >> $GITHUB_STEP_SUMMARY
