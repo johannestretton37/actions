@@ -2,7 +2,7 @@ on:
   push:
 
 jobs:
-  conditions:
+  build-or-not:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -11,11 +11,30 @@ jobs:
           fetch-depth: 2
       - name: Diff files in apps dir
         run: ./diff-files.sh -p apps
+
       - name: Something has changed
-        continue-on-error: true
         if: ${{ env.CHANGED_FILES > 0 }}
+        run: echo "Build images here, bitte!"
+
+      - name: Nothing has changed
+        if: ${{ env.CHANGED_FILES <= 0 }}
+        uses: octokit/request-action@v2.x
+        id: get_prev_sha
+        with:
+          route: GET /repos/johannestretton37/actions/actions/runs
+          owner: octokit
+          repo: request-action
+          conclusion: "success"
+          status: "completed"
+          display_title: "ip check"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set env var
         run: |
-          echo env.CHANGED_FILES ${{ env.CHANGED_FILES }}
+          PREV_SHA=${{ fromJSON(steps.get_prev_sha.outputs.data).workflow_runs[0].head_sha }}
+          echo "IMAGE_TAG=${PREV_SHA:0:7}" >> $GITHUB_ENV
+      - name: Deploy with IMAGE_TAG
+        run: echo "Deploy with IMAGE_TAG ${{ env.IMAGE_TAG }}, bitte!"
   waiting:
       runs-on: ubuntu-latest
       steps:
