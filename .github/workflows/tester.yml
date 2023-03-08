@@ -10,8 +10,13 @@ jobs:
         with:
           fetch-depth: 2
       - name: something-changed
+        continue-on-error: true
         run: CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) >> $GITHUB_ENV
+      - name: something-changed-echo
+        continue-on-error: true
+        run: git diff --name-only HEAD^ HEAD | grep ^apps\/ -c
       - name: something-changed-if
+        continue-on-error: true
         if: ${{ env.CHANGED_FILES > 0 }}
         run: echo changed files $(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c)
   waiting:
