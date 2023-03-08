@@ -10,14 +10,12 @@ jobs:
         with:
           fetch-depth: 2
       - name: Diff files in apps dir
-        run: echo DIFF=$(./diff-files.sh apps) >> $GITHUB_ENV
+        run: ./diff-files.sh apps
       - name: Something has changed
         continue-on-error: true
-        if: ${{ env.DIFF > 0 }}
+        if: ${{ env.CHANGED_FILES > 0 }}
         run: |
-          echo env.DIFF ${{ env.DIFF }}
-          echo raw $SOMETHING
-          echo interpolated ${{ env.SOMETHING }}
+          echo env.CHANGED_FILES ${{ env.CHANGED_FILES }}
   waiting:
       runs-on: ubuntu-latest
       steps:
