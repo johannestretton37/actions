@@ -14,7 +14,10 @@ jobs:
       - name: Something has changed
         continue-on-error: true
         if: ${{ env.DIFF > 0 }}
-        run: echo env.DIFF ${{ env.DIFF }}
+        run: |
+          echo env.DIFF ${{ env.DIFF }}
+          echo raw $SOMETHING
+          echo interpolated ${{ env.SOMETHING }}
   waiting:
       runs-on: ubuntu-latest
       steps:

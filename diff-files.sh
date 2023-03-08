@@ -2,6 +2,7 @@
 
 # echo "folder prefix: $1"
 CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep ^$1\/ -c)
+echo "SOMETHING=123" >> $GITHUB_ENV;
 echo $CHANGED_FILES;
 
 
