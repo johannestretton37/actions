@@ -9,6 +9,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
+      - name: now
+        run: ./diff-files.sh apps
       - name: something-changed
         continue-on-error: true
         run: CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) >> $GITHUB_ENV
