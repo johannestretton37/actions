@@ -10,17 +10,30 @@ jobs:
         with:
           fetch-depth: 2
       - name: now
-        run: ./diff-files.sh apps
+        run: echo DIFF=$(./diff-files.sh apps) >> $GITHUB_ENV
+
       - name: something-changed
         continue-on-error: true
         run: CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c) >> $GITHUB_ENV
+
       - name: something-changed-echo
         continue-on-error: true
-        run: git diff --name-only HEAD^ HEAD | grep ^apps\/ -c
+        run: |
+          git diff --name-only HEAD^ HEAD | grep ^apps\/ -c
+          echo $DIFF
+          echo $CHANGED_FILES
+          echo ${{ env.DIFF }}
+          echo ${{ env.CHANGED_FILES }}
+
       - name: something-changed-if
         continue-on-error: true
         if: ${{ env.CHANGED_FILES > 0 }}
-        run: echo changed files $(git diff --name-only HEAD^ HEAD | grep ^apps\/ -c)
+        run: echo ${{ env.CHANGED_FILES }}
+
+      - name: something-changed-not-if
+        continue-on-error: true
+        if: ${{ env.CHANGED_FILES <= 0 }}
+        run: echo ${{ env.CHANGED_FILES }}
   waiting:
       runs-on: ubuntu-latest
       steps:
