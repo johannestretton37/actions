@@ -24,4 +24,4 @@ echo "git diff --name-only $OLD_COMMIT..$NEW_COMMIT | egrep $REGEX_STR -c"
 echo -e "\n------ CHANGED FILES: ------"
 git diff --name-only $OLD_COMMIT..$NEW_COMMIT | egrep $REGEX_STR;
 echo -e "----------- END ------------\n"
-echo "CHANGED_FILES=$(git diff --name-only $OLD_COMMIT..$NEW_COMMIT | egrep $REGEX_STR -c)"; # >> $GITHUB_ENV;
+echo "CHANGED_FILES=$(git diff --name-only $OLD_COMMIT..$NEW_COMMIT | egrep $REGEX_STR -c)" >> $GITHUB_ENV;
