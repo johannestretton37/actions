@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 20
       - name: Diff files in apps dir with latest deployed git_sha
         run: ./diff-files.sh -p apps -c $PREV_SHA
 
