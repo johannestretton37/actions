@@ -16,7 +16,7 @@ jobs:
         with:
           url: https://webhook.site/fe506938-1018-4b25-8093-47cb87c581da
           method: POST
-          payload: $(echo "hello")
+          payload: echo "hello"
 
   #     - name: Summary
   #       run: |
