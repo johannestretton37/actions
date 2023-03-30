@@ -1,0 +1,114 @@
+{
+  "type": "message ",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "contentUrl": null,
+      "content": {
+        "": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.2",
+        "body": [
+          {
+            "type": "ColumnSet",
+            "spacing": "large",
+            "separator": true,
+            "columns": [
+              {
+                "width": "32px",
+                "items": [
+                  {
+                    "type": "Image",
+                    "width": "32px",
+                    "style": "person",
+                    "horizontalAlignment": "center",
+                    "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                    "altText": "GitHub"
+                  }
+                ]
+              },
+              {
+                "width": "stretch",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "**img tag  Deploy  of PR [${{ github.event.pull_request.number }}](${{ github.event.pull_request.html_url }})**"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "[${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})"
+                  },
+                  {
+                    "type": "ColumnSet",
+                    "spacing": "large",
+                    "separator": false,
+                    "columns": [
+                      {
+                        "width": "120px",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇳🇴 DEV NO]()"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇸🇪 DEV SE]()"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇩🇰 DEV DK]()"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇫🇮 DEV FI]()"
+                          }
+                        ]
+                      },
+                      {
+                        "width": "stretch",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇳🇴 PROD NO](${{ fromJSON(needs.deploy.outputs.urlsDict).prod.no }})"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇸🇪 PROD SE](${{ fromJSON(needs.deploy.outputs.urlsDict).prod.se }})"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇩🇰 PROD DK](${{ fromJSON(needs.deploy.outputs.urlsDict).prod.dk }})"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇫🇮 PROD FI](${{ fromJSON(needs.deploy.outputs.urlsDict).prod.fi }})"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

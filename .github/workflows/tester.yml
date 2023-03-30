@@ -20,18 +20,19 @@ jobs:
         uses: actions/checkout@v3
         # with:
         #   fetch-depth: 2
-      - name: Prepare template
+      - name: Prepare notifications
         env:
-          PR_NUMBER_EVENT: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          URL_DEV_SE="hello"
-          echo JSON_TEMPLATE=$(echo '${{ needs.deploy.outputs.urlsDict }}' | ./notify-teams.sh) >> $GITHUB_ENV
+          echo JSON_MESSAGE=$(echo '${{ needs.deploy.outputs.urlsDict }}' | ./.github/templates/notify-teams.sh) >> $GITHUB_ENV
       - name: Update Teams PR channel with links
         uses: satak/webrequest-action@v1.2.3
         with:
           url: https://webhook.site/fe506938-1018-4b25-8093-47cb87c581da
           method: POST
-          payload: ${{ env.JSON_TEMPLATE }}
+          payload: ${{ env.JSON_MESSAGE }}
 
   #     - name: Summary
   #       run: |
