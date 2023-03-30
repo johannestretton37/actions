@@ -13,7 +13,8 @@ jobs:
         #   fetch-depth: 2
       - name: Prepare template
         env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER_EVENT: ${{ github.event.pull_request.number }}
+          PR_NUMBER: abc
         run: |
           echo JSON_TEMPLATE=$(envsubst < ./template.json) >> $GITHUB_ENV
       - name: Update Teams PR channel with links
