@@ -1,6 +1,10 @@
 #!/bin/bash
 
-DICT=$(cat)
+DICT=$(cat);
+
+export PR_NUMBER=$($1 | jq -r '.number');
+export PR_URL=$($1 | jq -r '.html_url');
+export PR_TITLE=$($1 | jq -r '.title');
 
 export URL_DEV_SE=$(echo $DICT | jq -r '.dev.se');
 export URL_DEV_NO=$(echo $DICT | jq -r '.dev.no');

@@ -1,5 +1,5 @@
 {
-  "type": "message ",
+  "type": "message",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
@@ -32,11 +32,11 @@
                 "items": [
                   {
                     "type": "TextBlock",
-                    "text": "**img tag  Deploy  of PR [${{ github.event.pull_request.number }}](${{ github.event.pull_request.html_url }})**"
+                    "text": "**Deploy of PR []()**"
                   },
                   {
                     "type": "TextBlock",
-                    "text": "[${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})"
+                    "text": "[]()"
                   },
                   {
                     "type": "ColumnSet",
@@ -50,25 +50,25 @@
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇳🇴 DEV NO]()"
+                            "text": "[🇳🇴 DEV NO](null)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇸🇪 DEV SE]()"
+                            "text": "[🇸🇪 DEV SE](http://se.dev)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇩🇰 DEV DK]()"
+                            "text": "[🇩🇰 DEV DK](null)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇫🇮 DEV FI]()"
+                            "text": "[🇫🇮 DEV FI](null)"
                           }
                         ]
                       },
@@ -79,25 +79,25 @@
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇳🇴 PROD NO](${{ fromJSON(needs.deploy.outputs.urlsDict).prod.no }})"
+                            "text": "[🇳🇴 PROD NO](null)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇸🇪 PROD SE](${{ fromJSON(needs.deploy.outputs.urlsDict).prod.se }})"
+                            "text": "[🇸🇪 PROD SE](http://se.prod)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇩🇰 PROD DK](${{ fromJSON(needs.deploy.outputs.urlsDict).prod.dk }})"
+                            "text": "[🇩🇰 PROD DK](null)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇫🇮 PROD FI](${{ fromJSON(needs.deploy.outputs.urlsDict).prod.fi }})"
+                            "text": "[🇫🇮 PROD FI](null)"
                           }
                         ]
                       }
