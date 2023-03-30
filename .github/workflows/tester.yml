@@ -11,12 +11,15 @@ jobs:
         uses: actions/checkout@v3
         # with:
         #   fetch-depth: 2
+      - name: Prepare template
+        run: |
+          echo JSON_TEMPLATE=$(echo '"{ "json": true }"') >> $GITHUB_ENV
       - name: Update Teams PR channel with links
         uses: satak/webrequest-action@v1.2.3
         with:
           url: https://webhook.site/fe506938-1018-4b25-8093-47cb87c581da
           method: POST
-          payload: echo "hello"
+          payload: ${{ env.JSON_TEMPLATE }}
 
   #     - name: Summary
   #       run: |
