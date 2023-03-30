@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Create output
         id: create
-        run: echo urlsDict='{"dev":{"se":"http://se.dev"},"prod":{"se":"http://se.prod""}}' >> $GITHUB_OUTPUT
+        run: echo urlsDict='{"dev":{"se":"http://se.dev"},"prod":{"se":"http://se.prod"}}' >> $GITHUB_OUTPUT
   build-or-not:
     runs-on: ubuntu-latest
     needs: deploy
