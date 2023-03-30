@@ -6,6 +6,8 @@ export PR_NUMBER=$($1 | jq -r '.number');
 export PR_URL=$($1 | jq -r '.html_url');
 export PR_TITLE=$($1 | jq -r '.title');
 
+echo "Wthat is $PR_INFO"
+
 export URL_DEV_SE=$(echo $DICT | jq -r '.dev.se');
 export URL_DEV_NO=$(echo $DICT | jq -r '.dev.no');
 export URL_DEV_DK=$(echo $DICT | jq -r '.dev.dk');
