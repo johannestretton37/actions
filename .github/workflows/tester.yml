@@ -25,7 +25,7 @@ jobs:
           PR_NUMBER_EVENT: ${{ github.event.pull_request.number }}
         run: |
           URL_DEV_SE="hello"
-          echo JSON_TEMPLATE=$(echo '${{ needs.deploy.outputs.urlsDict }}' ./notify-teams.sh) >> $GITHUB_ENV
+          echo JSON_TEMPLATE=$(echo '${{ needs.deploy.outputs.urlsDict }}' | ./notify-teams.sh) >> $GITHUB_ENV
       - name: Update Teams PR channel with links
         uses: satak/webrequest-action@v1.2.3
         with:
