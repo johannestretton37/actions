@@ -4,7 +4,8 @@ jobs:
   checkSha:
     runs-on: ubuntu-latest
     steps:
-      - uses: octokit/request-action@v2.x
+      - name: Get latest successful build run
+        uses: octokit/request-action@v2.x
         id: get_runs
         with:
           route: GET /repos/johannestretton37/actions/actions/runs
@@ -15,7 +16,7 @@ jobs:
           display_title: "ip check"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set env var
+      - name: Extract git sha from latest build
         run: echo "PREV_SHA=${{ fromJSON(steps.get_runs.outputs.data).workflow_runs[0].head_sha }}" >> $GITHUB_ENV
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -23,7 +24,6 @@ jobs:
           fetch-depth: 20
       - name: Diff files in apps dir with latest deployed git_sha
         run: ./diff-files.sh -p apps -c $PREV_SHA
-
       - name: Echo Prev IMAGE_TAG
         run: echo "Previous IMAGE_TAG ${PREV_SHA:0:7}"
       - name: Echo number of CHANGED_FILES

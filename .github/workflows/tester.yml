@@ -4,73 +4,85 @@ on:
 jobs:
   build-or-not:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: '1234567'
     steps:
       - name: checkout
         uses: actions/checkout@v3
+        # with:
+        #   fetch-depth: 2
+      - name: Update Teams PR channel with links
+        uses: satak/webrequest-action@v1.2.3
         with:
-          fetch-depth: 2
-      - name: Diff files in apps dir
-        run: ./diff-files.sh -p apps
+          url: https://webhook.site/fe506938-1018-4b25-8093-47cb87c581da
+          method: POST
+          payload: $(echo "hello")
 
-      - name: Something has changed
-        if: ${{ env.CHANGED_FILES > 0 }}
-        run: echo "Build images here, bitte!"
+  #     - name: Summary
+  #       run: |
+  #         echo "*IMAGE_TAG*: \`${{ env.IMAGE_TAG }}\`" >> $GITHUB_STEP_SUMMARY
+  #     - name: Diff files in apps dir
+  #       run: ./diff-files.sh -p apps
 
-      - name: Nothing has changed
-        if: ${{ env.CHANGED_FILES <= 0 }}
-        uses: octokit/request-action@v2.x
-        id: get_prev_sha
-        with:
-          route: GET /repos/johannestretton37/actions/actions/runs
-          owner: octokit
-          repo: request-action
-          conclusion: "success"
-          status: "completed"
-          display_title: "ip check"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set env var
-        run: |
-          PREV_SHA=${{ fromJSON(steps.get_prev_sha.outputs.data).workflow_runs[0].head_sha }}
-          echo "IMAGE_TAG=${PREV_SHA:0:7}" >> $GITHUB_ENV
-      - name: Deploy with IMAGE_TAG
-        run: echo "Deploy with IMAGE_TAG ${{ env.IMAGE_TAG }}, bitte!"
-  waiting:
-      runs-on: ubuntu-latest
-      steps:
-      - name: jokez
-        continue-on-error: true
-        run: |
-          echo $(curl -H "Accept: text/plain" https://icanhazdadjoke.com) >> $GITHUB_STEP_SUMMARY
-  echoer:
-      runs-on: ubuntu-latest
-      steps:
-      - name: deploy
-        id: rollout
-        run: |
-          echo urlsDict='{"dk": "https://pinocchio-dk.elkds-dev.example.com","fi": "https://pinocchio-fi.elkds-dev.example.com","no": "https://pinocchio-no.elkds-dev.example.com","se": "https://pinocchio-se.elkds-dev.example.com"}' >> $GITHUB_OUTPUT
-      - name: display info
-        run: |
-          echo -e "## Pinocchio :lying_face: URLs (Dev)\n
-          [Admin NO :norway:](${{ fromJSON(steps.rollout.outputs.urlsDict).no }}/admin)
-          [Proxy NO :norway:](${{ fromJSON(steps.rollout.outputs.urlsDict).no }})\n
-          [Admin SE :sweden:](${{ fromJSON(steps.rollout.outputs.urlsDict).se }}/admin)
-          [Proxy SE :sweden:](${{ fromJSON(steps.rollout.outputs.urlsDict).se }})\n
-          [Admin DK :denmark:](${{ fromJSON(steps.rollout.outputs.urlsDict).dk }}/admin)
-          [Proxy DK :denmark:](${{ fromJSON(steps.rollout.outputs.urlsDict).dk }})\n
-          [Admin FI :finland:](${{ fromJSON(steps.rollout.outputs.urlsDict).fi }}/admin)
-          [Proxy FI :finland:](${{ fromJSON(steps.rollout.outputs.urlsDict).fi }})" >> $GITHUB_STEP_SUMMARY
+  #     - name: Something has changed
+  #       if: ${{ env.CHANGED_FILES > 0 }}
+  #       run: echo "Build images here, bitte!"
 
-  nope:
-    if: "!endsWith(github.actor, '[bot]')"
-    runs-on: ubuntu-latest
-    steps:
-      - name: does not end with bot
-        run: echo "Actor does not end with bot"
-  yep:
-    if: "endsWith(github.actor, '[bot]')"
-    runs-on: ubuntu-latest
-    steps:
-      - name: does end with bot
-        run: echo "Actor does not end with bot"
+  #     - name: Nothing has changed
+  #       if: ${{ env.CHANGED_FILES <= 0 }}
+  #       uses: octokit/request-action@v2.x
+  #       id: get_prev_sha
+  #       with:
+  #         route: GET /repos/johannestretton37/actions/actions/runs
+  #         owner: octokit
+  #         repo: request-action
+  #         conclusion: "success"
+  #         status: "completed"
+  #         display_title: "ip check"
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Set env var
+  #       run: |
+  #         PREV_SHA=${{ fromJSON(steps.get_prev_sha.outputs.data).workflow_runs[0].head_sha }}
+  #         echo "IMAGE_TAG=${PREV_SHA:0:7}" >> $GITHUB_ENV
+  #     - name: Deploy with IMAGE_TAG
+  #       run: echo "Deploy with IMAGE_TAG ${{ env.IMAGE_TAG }}, bitte!"
+  # waiting:
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #     - name: jokez
+  #       continue-on-error: true
+  #       run: |
+  #         echo $(curl -H "Accept: text/plain" https://icanhazdadjoke.com) >> $GITHUB_STEP_SUMMARY
+  # echoer:
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #     - name: deploy
+  #       id: rollout
+  #       run: |
+  #         echo urlsDict='{"dk": "https://pinocchio-dk.elkds-dev.example.com","fi": "https://pinocchio-fi.elkds-dev.example.com","no": "https://pinocchio-no.elkds-dev.example.com","se": "https://pinocchio-se.elkds-dev.example.com"}' >> $GITHUB_OUTPUT
+  #     - name: display info
+  #       run: |
+  #         echo -e "## Pinocchio :lying_face: URLs (Dev)\n
+  #         [Admin NO :norway:](${{ fromJSON(steps.rollout.outputs.urlsDict).no }}/admin)
+  #         [Proxy NO :norway:](${{ fromJSON(steps.rollout.outputs.urlsDict).no }})\n
+  #         [Admin SE :sweden:](${{ fromJSON(steps.rollout.outputs.urlsDict).se }}/admin)
+  #         [Proxy SE :sweden:](${{ fromJSON(steps.rollout.outputs.urlsDict).se }})\n
+  #         [Admin DK :denmark:](${{ fromJSON(steps.rollout.outputs.urlsDict).dk }}/admin)
+  #         [Proxy DK :denmark:](${{ fromJSON(steps.rollout.outputs.urlsDict).dk }})\n
+  #         [Admin FI :finland:](${{ fromJSON(steps.rollout.outputs.urlsDict).fi }}/admin)
+  #         [Proxy FI :finland:](${{ fromJSON(steps.rollout.outputs.urlsDict).fi }})" >> $GITHUB_STEP_SUMMARY
+
+  # nope:
+  #   if: "!endsWith(github.actor, '[bot]')"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: does not end with bot
+  #       run: echo "Actor does not end with bot"
+  # yep:
+  #   if: "endsWith(github.actor, '[bot]')"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: does end with bot
+  #       run: echo "Actor does not end with bot"
 
