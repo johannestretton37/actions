@@ -1,0 +1,114 @@
+{
+  "type": "message",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "contentUrl": null,
+      "content": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.2",
+        "body": [
+          {
+            "type": "ColumnSet",
+            "spacing": "large",
+            "separator": true,
+            "columns": [
+              {
+                "width": "32px",
+                "items": [
+                  {
+                    "type": "Image",
+                    "width": "32px",
+                    "style": "person",
+                    "horizontalAlignment": "center",
+                    "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                    "altText": "GitHub"
+                  }
+                ]
+              },
+              {
+                "width": "stretch",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "**Deploy of PR [$PR_NUMBER]($PR_URL)**"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "[$PR_TITLE]($PR_URL)"
+                  },
+                  {
+                    "type": "ColumnSet",
+                    "spacing": "large",
+                    "separator": false,
+                    "columns": [
+                      {
+                        "width": "120px",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇳🇴 DEV NO]($URL_DEV_NO)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇸🇪 DEV SE]($URL_DEV_SE)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇩🇰 DEV DK]($URL_DEV_DK)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇫🇮 DEV FI]($URL_DEV_FI)"
+                          }
+                        ]
+                      },
+                      {
+                        "width": "stretch",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇳🇴 PROD NO]($URL_PROD_NO)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇸🇪 PROD SE]($URL_PROD_SE)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇩🇰 PROD DK]($URL_PROD_DK)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇫🇮 PROD FI]($URL_PROD_FI)"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

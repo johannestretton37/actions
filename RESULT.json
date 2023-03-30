@@ -1,0 +1,114 @@
+{
+  "type": "message",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "contentUrl": null,
+      "content": {
+        "": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.2",
+        "body": [
+          {
+            "type": "ColumnSet",
+            "spacing": "large",
+            "separator": true,
+            "columns": [
+              {
+                "width": "32px",
+                "items": [
+                  {
+                    "type": "Image",
+                    "width": "32px",
+                    "style": "person",
+                    "horizontalAlignment": "center",
+                    "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                    "altText": "GitHub"
+                  }
+                ]
+              },
+              {
+                "width": "stretch",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "**Deploy of PR []()**"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "[]()"
+                  },
+                  {
+                    "type": "ColumnSet",
+                    "spacing": "large",
+                    "separator": false,
+                    "columns": [
+                      {
+                        "width": "120px",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇳🇴 DEV NO](null)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇸🇪 DEV SE](http://se.dev)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇩🇰 DEV DK](null)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇫🇮 DEV FI](null)"
+                          }
+                        ]
+                      },
+                      {
+                        "width": "stretch",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇳🇴 PROD NO](null)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇸🇪 PROD SE](http://se.prod)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇩🇰 PROD DK](null)"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "small",
+                            "isSubtle": true,
+                            "text": "[🇫🇮 PROD FI](null)"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
