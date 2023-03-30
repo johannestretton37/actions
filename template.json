@@ -1,5 +1,5 @@
 {
-  "type": "message",
+  "type": "message $URL_DEV_SE",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
