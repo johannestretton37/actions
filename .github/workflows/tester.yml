@@ -23,9 +23,8 @@ jobs:
       - name: Prepare template
         env:
           PR_NUMBER_EVENT: ${{ github.event.pull_request.number }}
-          URL_DEV_SE: ${{ needs.deploy.outputs.urlsDict | jq '.dev.se' }}
+          URL_DEV_SE: ${{ needs.deploy.outputs.urlsDict }} | jq '.dev.se'
         run: |
-          echo $(jq '')
           echo JSON_TEMPLATE=$(envsubst < ./template.json) >> $GITHUB_ENV
       - name: Update Teams PR channel with links
         uses: satak/webrequest-action@v1.2.3
