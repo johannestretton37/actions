@@ -2,11 +2,13 @@
 
 DICT=$(cat);
 
-export PR_NUMBER=$($1 | jq -r '.number');
-export PR_URL=$($1 | jq -r '.html_url');
-export PR_TITLE=$($1 | jq -r '.title');
+# export PR_NUMBER=$($1 | jq -r '.number');
+# export PR_URL=$($1 | jq -r '.html_url');
+# export PR_TITLE=$($1 | jq -r '.title');
+export PR_NUMBER=$($PR_INFO | jq -r '.number');
+export PR_URL=$($PR_INFO | jq -r '.html_url');
+export PR_TITLE=$($PR_INFO | jq -r '.title');
 
-echo "Wthat is $PR_INFO"
 
 export URL_DEV_SE=$(echo $DICT | jq -r '.dev.se');
 export URL_DEV_NO=$(echo $DICT | jq -r '.dev.no');
