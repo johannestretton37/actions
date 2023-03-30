@@ -50,25 +50,25 @@
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇳🇴 DEV NO](${{ fromJSON(needs.deploy.outputs.urlsDict).dev.no }})"
+                            "text": "[🇳🇴 DEV NO]($URL_DEV_NO)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇸🇪 DEV SE](${{ fromJSON(needs.deploy.outputs.urlsDict).dev.se }})"
+                            "text": "[🇸🇪 DEV SE]($URL_DEV_SE)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇩🇰 DEV DK](${{ fromJSON(needs.deploy.outputs.urlsDict).dev.dk }})"
+                            "text": "[🇩🇰 DEV DK]($URL_DEV_DK)"
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "small",
                             "isSubtle": true,
-                            "text": "[🇫🇮 DEV FI](${{ fromJSON(needs.deploy.outputs.urlsDict).dev.fi }})"
+                            "text": "[🇫🇮 DEV FI]($URL_DEV_FI)"
                           }
                         ]
                       },
