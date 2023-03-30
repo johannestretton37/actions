@@ -13,7 +13,7 @@ jobs:
         #   fetch-depth: 2
       - name: Prepare template
         run: |
-          echo JSON_TEMPLATE=$(echo '"{ "json": true }"') >> $GITHUB_ENV
+          echo JSON_TEMPLATE=$(cat ./template.json) >> $GITHUB_ENV
       - name: Update Teams PR channel with links
         uses: satak/webrequest-action@v1.2.3
         with:
