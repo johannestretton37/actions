@@ -1,0 +1,15 @@
+name: Quick test
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dont run
+        if: false
+        run: echo "nope"
+      - name: Run
+        if: true
+        run: echo "Yep"
