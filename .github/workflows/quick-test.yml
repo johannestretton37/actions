@@ -6,9 +6,9 @@ on:
 jobs:
   first:
     runs-on: ubuntu-latest
+    if: false
     steps:
       - name: First job
-        if: false
         run: echo "first"
   second:
     runs-on: ubuntu-latest
