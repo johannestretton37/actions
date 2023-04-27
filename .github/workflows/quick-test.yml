@@ -4,12 +4,16 @@ on:
   push:
 
 jobs:
-  test:
+  first:
     runs-on: ubuntu-latest
     steps:
-      - name: Dont run
+      - name: First job
         if: false
-        run: echo "nope"
-      - name: Run
-        if: true
-        run: echo "Yep"
+        run: echo "first"
+  second:
+    runs-on: ubuntu-latest
+    needs: first
+    if: always()
+    steps:
+      - name: Second job
+        run: echo "second"
