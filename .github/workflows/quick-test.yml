@@ -13,7 +13,7 @@ jobs:
   second:
     runs-on: ubuntu-latest
     needs: first
-    if: always()
+    # if: always()
     steps:
       - name: Second job
         run: echo "second"
