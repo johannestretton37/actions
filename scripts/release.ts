@@ -50,9 +50,9 @@ async function main() {
       );
     } else {
       console.log(
-        `Update package.json version to ${latestTag.replace('v', '')}
-        ${path}`
+        `Update package.json version to ${latestTag.replace('v', '')}`
       );
+      console.log('\x1b[34m%s\x1b[0m', `  ${path}`);
     }
     console.log('\nThen try this script again');
     process.exit(0);
