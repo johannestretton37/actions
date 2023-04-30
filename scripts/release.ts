@@ -35,52 +35,57 @@ async function main() {
   const newTag = `v${semver.inc(latestTag, releaseType)}`;
   if (`v${newVersion}` !== newTag) {
     const shouldUpdateTag = semver.gt(newVersion ?? '', newTag);
-    await inquirer
-      .prompt([
-        {
-          type: 'confirm',
-          name: 'performUpdate',
-          message: () => {
-            const message = `Git tag and package version mismatch. Found:
-    package version: ${currentVersion}  (${path})
-    git tag:         ${latestTag}`;
-            const suggestion = shouldUpdateTag
-              ? `Create and push a new annotated git tag?`
-              : `Update package.json version to ${latestTag.replace('v', '')}?`;
+    if (shouldUpdateTag) {
+      await inquirer
+        .prompt([
+          {
+            type: 'confirm',
+            name: 'performUpdate',
+            message: () => {
+              const message = `Git tag and package version mismatch. Found:
+      package version: ${currentVersion}  (${path})
+      git tag:         ${latestTag}`;
+              const suggestion = shouldUpdateTag
+                ? `Create and push a new annotated git tag?`
+                : `Update package.json version to ${latestTag.replace(
+                    'v',
+                    ''
+                  )}?`;
 
-            return message + '\n  ' + suggestion;
+              return message + '\n  ' + suggestion;
+            },
           },
-        },
-      ])
-      .then((answers) => {
-        if (!answers.performUpdate) {
-          console.log('No actions performed');
-          process.exit(0);
-        }
-        if (shouldUpdateTag) {
-          execSync(
-            `git tag -a v${currentVersion} -m "Release v${currentVersion}" && git push --tags`,
-            { encoding: 'utf-8', stdio: 'inherit' }
-          );
-        } else {
-          execSync(
-            `npm version ${latestTag.replace('v', '')} --git-tag-version=false`
-          );
-        }
-        //   if (semver.gt(newVersion ?? '', newTag)) {
-        //     console.log('Create and push a new annotated git tag by running:');
-        //     console.log(
-        //       '\x1b[34m%s\x1b[0m',
-        //       `  git tag -a v${currentVersion} -m "Release v${currentVersion}"
-        // git push --tags`
-        //     );
-        //   } else {
-        //     console.log(
-        //       `Update package.json version to ${latestTag.replace('v', '')}`
-        //     );
-        //     console.log('\x1b[34m%s\x1b[0m', `  ${path}`);
-        //   }
-      });
+        ])
+        .then((answers) => {
+          if (!answers.performUpdate) {
+            console.log('No actions performed');
+            process.exit(0);
+          }
+          if (shouldUpdateTag) {
+            execSync(
+              `git tag -a v${currentVersion} -m "Release v${currentVersion}" && git push --tags`,
+              { encoding: 'utf-8', stdio: 'inherit' }
+            );
+          } else {
+            execSync(
+              `npm version ${latestTag.replace('v', '')} --git-tag-version=true`
+            );
+          }
+          //   if (semver.gt(newVersion ?? '', newTag)) {
+          //     console.log('Create and push a new annotated git tag by running:');
+          //     console.log(
+          //       '\x1b[34m%s\x1b[0m',
+          //       `  git tag -a v${currentVersion} -m "Release v${currentVersion}"
+          // git push --tags`
+          //     );
+          //   } else {
+          //     console.log(
+          //       `Update package.json version to ${latestTag.replace('v', '')}`
+          //     );
+          //     console.log('\x1b[34m%s\x1b[0m', `  ${path}`);
+          //   }
+        });
+    }
     //     console.error('\x1b[41m%s\x1b[0m', 'Error:');
     //     console.error(
     //       `Git tag and package version mismatch. Found:
