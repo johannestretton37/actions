@@ -49,10 +49,8 @@ async function main() {
     process.exit(0);
   }
   try {
-    console.log('Bumping npm version');
+    console.log('Bumping npm version and creating git tag');
     execSync(`npm version ${versionType}`, execSyncOptions);
-    console.log('Creating git tag');
-    execSync(`git tag -a ${newTag} -m "Release ${newTag}"`, execSyncOptions);
     console.log('Pushing git tag');
     execSync(`git push origin --tags`, execSyncOptions);
   } catch (err) {
