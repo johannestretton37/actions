@@ -64,7 +64,11 @@ async function main() {
           );
         } else {
           execSync(
-            `npm version ${latestTag.replace('v', '')} --git-tag-version=true`
+            `npm version ${latestTag.replace(
+              'v',
+              ''
+            )} --git-tag-version=false && git add ${path} && git commit --amend --no-edit`,
+            { encoding: 'utf-8', stdio: 'inherit' }
           );
         }
         //   if (semver.gt(newVersion ?? '', newTag)) {
