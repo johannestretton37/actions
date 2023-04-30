@@ -4,7 +4,8 @@
   "description": "Let's go 🚀",
   "main": "index.js",
   "scripts": {
-    "test:lh": "LHCI_COLLECT__URL='https://pr-1337.example.com' lhci autorun"
+    "test:lh": "LHCI_COLLECT__URL='https://pr-1337.example.com' lhci autorun",
+    "release": "node ./release.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/johannestretton37/actions#readme",
   "devDependencies": {
-    "@lhci/cli": "^0.10.0"
+    "@lhci/cli": "^0.10.0",
+    "semver": "^7.5.0"
   }
 }
