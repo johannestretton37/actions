@@ -9,5 +9,5 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Publish to npm
+      - name: Publish ${{ toJSON(github.event).release.tag_name }} to npm
         run: echo "Publishing ${{ toJSON(github.event) }}"

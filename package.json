@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:lh": "LHCI_COLLECT__URL='https://pr-1337.example.com' lhci autorun",
-    "release": "node ./release.js"
+    "release": "tsx ./release.ts"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,11 @@
   "homepage": "https://github.com/johannestretton37/actions#readme",
   "devDependencies": {
     "@lhci/cli": "^0.10.0",
-    "semver": "^7.5.0"
+    "@types/inquirer": "^9.0.3",
+    "@types/semver": "^7.3.13",
+    "inquirer": "^9.2.0",
+    "semver": "^7.5.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.0.4"
   }
 }
