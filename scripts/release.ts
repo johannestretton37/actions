@@ -73,7 +73,7 @@ git tag:         ${latestTag}`;
       {
         name: 'confirm',
         type: 'confirm',
-        message: `Actions planned:\n
+        message: () => `Actions planned:\n
   ✔︎ Bump package.json version from: ${currentVersion} -> ${newVersion}
   ✔︎ Create and push git tag: ${newTag}
 
