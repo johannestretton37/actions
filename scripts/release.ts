@@ -50,7 +50,6 @@ async function main() {
 
           newVersion = semver.inc(currentVersion, answers.releaseType)!;
           newTag = `v${semver.inc(latestTag, answers.releaseType)}`;
-          console.log('checking if update would be valid', newVersion, newTag);
           return `v${newVersion}` !== newTag;
         },
         message: (answers) => {
