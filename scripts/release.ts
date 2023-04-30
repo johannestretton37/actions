@@ -52,6 +52,7 @@ async function main() {
           newTag = `v${semver.inc(latestTag, answers.releaseType)}`;
           return `v${newVersion}` !== newTag;
         },
+        prefix: '💥',
         message: (answers) => {
           const latestTag = getLatestTag();
 
@@ -59,9 +60,10 @@ async function main() {
           newTag = `v${semver.inc(latestTag, answers.releaseType)}`;
           const shouldUpdateTag = semver.gt(newVersion ?? '', newTag);
 
-          const message = `Git tag and package version mismatch. Found:
-package version: ${currentVersion}  (${path})
-git tag:         ${latestTag}`;
+          const message = `Git tag and package version mismatch.
+  Found:
+    package version: ${currentVersion}  (${path})
+    git tag:         ${latestTag}`;
           const suggestion = shouldUpdateTag
             ? `Create and push a new annotated git tag?`
             : `Update package.json version to ${latestTag.replace('v', '')}?`;
@@ -72,12 +74,15 @@ git tag:         ${latestTag}`;
       {
         name: 'confirm',
         type: 'confirm',
-        message: () => `Actions planned:\n
+        message: (answers, a, b) => {
+          console.log(answers, a, b);
+          return `Actions planned:\n
   ✔︎ Bump package.json version from: ${currentVersion} -> ${newVersion}
   ✔︎ Create and push git tag: ${newTag}
 
   Is this OK?
-`,
+`;
+        },
       },
     ])
     .then((answers) => {
