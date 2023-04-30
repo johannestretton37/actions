@@ -8,8 +8,17 @@ const VERSION_TYPES = ['patch', 'minor', 'major'];
 const [versionType = VERSION_TYPES[0]] = process.argv.slice(2);
 
 async function main() {
-  const isGitClean = execSync('git status --porcelain', { encoding: 'utf-8' });
-  console.log(isGitClean);
+  const gitStatus = execSync('git status --porcelain', {
+    encoding: 'utf-8',
+  });
+  const isGitClean = gitStatus.trim() === '';
+  if (!isGitClean) {
+    console.error(
+      `Git working directory not clean.\nCommit or reset the following files, then try again:\n\n${gitStatus}`
+    );
+    process.exit(1);
+  }
+
   console.log('Fetching tags...');
 
   execSync('git fetch --all --tags');
