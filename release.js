@@ -20,7 +20,9 @@ if (!VERSION_TYPES.includes(versionType)) {
 
 async function main() {
   execSync('git fetch --all --tags');
-  const latestTag = execSync('git describe', { encoding: 'utf-8' })?.trim();
+  const latestTag = execSync('git describe --abbrev=0', {
+    encoding: 'utf-8',
+  })?.trim();
   const rl = createInterface({
     input: process.stdin,
     output: process.stdout,
