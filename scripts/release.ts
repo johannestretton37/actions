@@ -34,28 +34,80 @@ async function main() {
   const newVersion = semver.inc(currentVersion, releaseType);
   const newTag = `v${semver.inc(latestTag, releaseType)}`;
   if (`v${newVersion}` !== newTag) {
-    console.error('\x1b[41m%s\x1b[0m', 'Error:');
-    console.error(
-      `Git tag and package version mismatch. Found:
-  package version: ${currentVersion}  (${path})
-  git tag:         ${latestTag}
-`
-    );
-    if (semver.gt(newVersion ?? '', newTag)) {
-      console.log('Create and push a new annotated git tag by running:');
-      console.log(
-        '\x1b[34m%s\x1b[0m',
-        `  git tag -a v${currentVersion} -m "Release v${currentVersion}"
-  git push --tags`
-      );
-    } else {
-      console.log(
-        `Update package.json version to ${latestTag.replace('v', '')}`
-      );
-      console.log('\x1b[34m%s\x1b[0m', `  ${path}`);
-    }
-    console.log('\nThen try this script again');
-    process.exit(0);
+    const shouldUpdateTag = semver.gt(newVersion ?? '', newTag);
+    await inquirer
+      .prompt([
+        {
+          type: 'confirm',
+          name: 'performUpdate',
+          message: () => {
+            const message = `Git tag and package version mismatch. Found:
+      package version: ${currentVersion}  (${path})
+      git tag:         ${latestTag}
+    `;
+            const suggestion = shouldUpdateTag
+              ? `
+    
+    Create and push a new annotated git tag
+    
+    `
+              : `Update package.json version to ${latestTag.replace('v', '')}?`;
+
+            return message + suggestion;
+          },
+        },
+      ])
+      .then((answers) => {
+        if (!answers.performUpdate) {
+          console.log('No actions performed');
+          process.exit(0);
+        }
+        if (shouldUpdateTag) {
+          execSync(
+            `git tag -a v${currentVersion} -m "Release v${currentVersion}" && git push --tags`,
+            { encoding: 'utf-8', stdio: 'inherit' }
+          );
+        } else {
+          execSync(
+            `npm version ${latestTag.replace('v', '')} --git-tag-version=false`
+          );
+        }
+        //   if (semver.gt(newVersion ?? '', newTag)) {
+        //     console.log('Create and push a new annotated git tag by running:');
+        //     console.log(
+        //       '\x1b[34m%s\x1b[0m',
+        //       `  git tag -a v${currentVersion} -m "Release v${currentVersion}"
+        // git push --tags`
+        //     );
+        //   } else {
+        //     console.log(
+        //       `Update package.json version to ${latestTag.replace('v', '')}`
+        //     );
+        //     console.log('\x1b[34m%s\x1b[0m', `  ${path}`);
+        //   }
+      });
+    //     console.error('\x1b[41m%s\x1b[0m', 'Error:');
+    //     console.error(
+    //       `Git tag and package version mismatch. Found:
+    //   package version: ${currentVersion}  (${path})
+    //   git tag:         ${latestTag}
+    // `
+    //     );
+    //   if (semver.gt(newVersion ?? '', newTag)) {
+    //     console.log('Create and push a new annotated git tag by running:');
+    //     console.log(
+    //       '\x1b[34m%s\x1b[0m',
+    //       `  git tag -a v${currentVersion} -m "Release v${currentVersion}"
+    // git push --tags`
+    //     );
+    //   } else {
+    //     console.log(
+    //       `Update package.json version to ${latestTag.replace('v', '')}`
+    //     );
+    //     console.log('\x1b[34m%s\x1b[0m', `  ${path}`);
+    //   }
+    // console.log('\nThen try this script again');
+    // process.exit(0);
   }
   await inquirer
     .prompt([
@@ -101,11 +153,12 @@ async function main() {
         }).match(/([a-z0-9_-]*\/[a-z0-9_-]*)/);
         if (repoName?.length) {
           console.log(
-            `Tag created successfully\n\n  Create new release:\n  https://github.com/${repoName[0]}/releases/new\n`
+            `Tag created successfully\n\n  Create new release:\n  https://github.com/${repoName[0]}/releases/new?tag=${newTag}\n`
           );
         }
         process.exit(0);
       } catch (err) {
+        console.error(err);
         process.exit(1);
       }
     });
