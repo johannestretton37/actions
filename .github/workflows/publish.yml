@@ -9,10 +9,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract tag
-        run: echo "TAG_NAME=${{ toJSON(github.event.release.tag_name) }}" >> $GITHUB_ENV
-      - name: Publish ${{ env.TAG_NAME }} to npm
+      - name: Publish ${{ toJSON(github.event.release.tag_name) }} to npm
         run: |
-          echo "first $TAG_NAME"
-          echo "second ${{ env.TAG_NAME }}"
           echo "Publishing ${{ toJSON(github.event) }}"
