@@ -49,9 +49,9 @@ async function main() {
       {
         name: 'confirm',
         type: 'confirm',
-        message: `Actions planned:
-  - bump package.json version from ${currentVersion} to ${newVersion}
-  - create and push git tag ${newTag}
+        message: `Actions planned:\n
+  ✔︎ bump package.json version from ${currentVersion} to ${newVersion}
+  ✔︎ create and push git tag ${newTag}
 
   Is this OK?
 `,
