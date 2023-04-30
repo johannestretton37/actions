@@ -31,7 +31,7 @@ async function main() {
   const latestTag = getLatestTag();
 
   const { path, version: currentVersion } = getPkgVersion();
-  const newVersion = semver.inc(currentVersion, releaseType);
+  let newVersion = semver.inc(currentVersion, releaseType);
   const newTag = `v${semver.inc(latestTag, releaseType)}`;
   if (`v${newVersion}` !== newTag) {
     const shouldUpdateTag = semver.gt(newVersion ?? '', newTag);
@@ -48,7 +48,7 @@ async function main() {
               ? `Create and push a new annotated git tag?`
               : `Update package.json version to ${latestTag.replace('v', '')}?`;
 
-            return message + '\n  ' + suggestion;
+            return message + '\n\n  ' + suggestion;
           },
         },
       ])
@@ -70,6 +70,7 @@ async function main() {
             )} --git-tag-version=false && git add ${path} && git commit --amend --no-edit`,
             { encoding: 'utf-8', stdio: 'inherit' }
           );
+          newVersion = latestTag.replace('v', '');
         }
         //   if (semver.gt(newVersion ?? '', newTag)) {
         //     console.log('Create and push a new annotated git tag by running:');
