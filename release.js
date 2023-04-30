@@ -53,6 +53,7 @@ async function main() {
     execSync(`npm version ${versionType}`, execSyncOptions);
     console.log('Pushing git tag');
     execSync(`git push origin --tags`, execSyncOptions);
+    process.exit(0);
   } catch (err) {
     process.exit(1);
   }
