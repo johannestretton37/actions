@@ -59,11 +59,12 @@ async function main() {
     ])
     .then((answers) => {
       const { versionType, confirm } = answers;
-      console.table(answers);
+
       if (!confirm) {
         console.log('\nNo actions performed\n');
         process.exit(0);
       }
+
       try {
         console.log('Bumping npm version and creating git tag');
         execSync(`npm version ${versionType}`, {
