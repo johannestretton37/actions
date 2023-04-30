@@ -42,18 +42,13 @@ async function main() {
           name: 'performUpdate',
           message: () => {
             const message = `Git tag and package version mismatch. Found:
-      package version: ${currentVersion}  (${path})
-      git tag:         ${latestTag}
-    `;
+    package version: ${currentVersion}  (${path})
+    git tag:         ${latestTag}`;
             const suggestion = shouldUpdateTag
-              ? `
-    
-    Create and push a new annotated git tag
-    
-    `
+              ? `Create and push a new annotated git tag?`
               : `Update package.json version to ${latestTag.replace('v', '')}?`;
 
-            return message + suggestion;
+            return message + '\n  ' + suggestion;
           },
         },
       ])
