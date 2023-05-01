@@ -58,7 +58,7 @@ async function main() {
     package version:  ${currentVersion}  (${pkgPath})
     git tag:         ${currentTag}
 `;
-          return `${message}\n  Update package.json version to ${currentTagVersion}?`;
+          return `${message}\n  Update package.json version to match git tag?`;
         },
       },
       {
@@ -99,9 +99,9 @@ async function main() {
           } = calculateNextVersion(answers.releaseType);
           const actions = [
             answers.updatePkgVersion
-              ? `  ✔︎ Bump package.json version from: ${currentVersion} -> ${newVersion}`
+              ? `  ✔︎ Bump package.json version to: ${newVersion}`
               : null,
-            `  ✔︎ Create and push git tag: ${newTag}`,
+            `  ✔︎ Create and push git tag:     ${newTag}`,
           ].filter(Boolean);
           return `TODO: Actions planned:\n${actions.join('\n')}\n\n  Is this OK?
 `;
