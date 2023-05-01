@@ -98,31 +98,30 @@ async function main() {
       },
     ])
     .then((answers) => {
-      console.table(answers);
       if (answers.confirm) {
         const {
-          currentTag,
           currentTagVersion,
           newTag,
           newTagVersion,
           currentVersion,
           newVersion,
-          checkedNewVersion,
           pkgPath,
         } = calculateNextVersion(answers.releaseType);
-        if (newVersion !== newTagVersion) {
-          console.log('tag / version mismatch');
-          if (semver.lt(currentVersion, currentTagVersion))
-            console.log('Updating pkg version to', currentTagVersion);
-          process.exit(0);
-
-          execSync(
-            `npm version ${currentTagVersion} --git-tag-version=false && git add ${pkgPath} && git commit --amend --no-edit`,
-            { encoding: 'utf-8', stdio: 'inherit' }
-          );
-        }
-        // Tag / version matches
         try {
+          if (newVersion !== newTagVersion) {
+            /**
+             * Git tag and package.json version mismatch
+             * If package.json version is less than git tag version, we need to update it before proceeding.
+             * Otherwise the updating command will fail
+             */
+            if (semver.lt(currentVersion, currentTagVersion)) {
+              execSync(
+                `npm version ${currentTagVersion} --git-tag-version=false && git add ${pkgPath} && git commit --amend --no-edit`,
+                { encoding: 'utf-8', stdio: 'inherit' }
+              );
+            }
+          }
+
           console.log('✨Bumping npm version and creating git tag');
           execSync(`npm version ${releaseType}`, {
             encoding: 'utf-8',
