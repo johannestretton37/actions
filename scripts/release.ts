@@ -95,7 +95,11 @@ async function main() {
           }).match(/([a-z0-9_-]*\/[a-z0-9_-]*)/);
           if (repoName?.length) {
             console.log(
-              `✨Tag created successfully\n\n  Create new release:\n  https://github.com/${repoName[0]}/releases/new?tag=${newTag}\n`
+              '\n✨Tag created successfully!\n\n  Create a new release:'
+            );
+            console.log(
+              '\x1b[36m%s\x1b[0m',
+              `  https://github.com/${repoName[0]}/releases/new?tag=${newTag}&title=Release%20${newTag}\n`
             );
           }
           process.exit(0);
