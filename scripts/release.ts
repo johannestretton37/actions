@@ -99,7 +99,7 @@ async function main() {
           } = calculateNextVersion(answers.releaseType);
           const actions = [
             answers.updatePkgVersion
-              ? `  ✔︎ Bump package.json version from: ${currentVersion} -> ${currentTagVersion}`
+              ? `  ✔︎ Bump package.json version from: ${currentVersion} -> ${newVersion}`
               : null,
             `  ✔︎ Create and push git tag: ${newTag}`,
           ].filter(Boolean);
@@ -250,7 +250,7 @@ function getPackageJsonPath(dir: string = __dirname): string | null {
   const files = readdirSync(dir);
   const pkgJson = files.find((filename) => filename === 'package.json');
   if (pkgJson) {
-    console.log(`Using version from ${dir}/package.json`);
+    // console.log(`Using version from ${dir}/package.json`);
     return `${dir}/package.json`;
   }
   const parentDir = dir.split('/').slice(0, -1).join('/');
