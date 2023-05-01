@@ -55,10 +55,10 @@ async function main() {
       if (answers.confirm) {
         const {
           currentTagVersion,
-          newTag,
           newTagVersion,
           currentVersion,
           newVersion,
+          checkedNewVersion,
           pkgPath,
         } = calculateNextVersion(answers.releaseType);
         try {
@@ -99,7 +99,7 @@ async function main() {
             );
             console.log(
               '\x1b[36m%s\x1b[0m',
-              `  https://github.com/${repoName[0]}/releases/new?tag=${newTag}&title=Release%20${newTag}\n`
+              `  https://github.com/${repoName[0]}/releases/new?tag=v${checkedNewVersion}&title=Release%20v${checkedNewVersion}\n`
             );
           }
           process.exit(0);
