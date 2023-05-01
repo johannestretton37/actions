@@ -87,29 +87,11 @@ async function main() {
         name: 'confirm',
         type: 'confirm',
         message: (answers) => {
-          const {
-            currentTag,
-            currentTagVersion,
-            newTag,
-            newTagVersion,
-            currentVersion,
-            newVersion,
-            pkgPath,
-          } = calculateNextVersion(answers.releaseType);
-          let checkedNewVersion = newTagVersion;
-          if (newVersion !== newTagVersion) {
-            // Mismatch between git tag and pkg version
-            if (semver.gt(newVersion, newTag)) {
-              // git tag needs to be updated
-              checkedNewVersion = newVersion;
-            } else {
-              //package.json version needs to be updated
-              checkedNewVersion = newTagVersion;
-            }
-          }
+          const { currentTag, currentVersion, checkedNewVersion, pkgPath } =
+            calculateNextVersion(answers.releaseType);
           const actions = [
-            `  ✔︎ Bump package.json version to: ${checkedNewVersion}`,
-            `  ✔︎ Create and push git tag:     v${checkedNewVersion}`,
+            `  ✔︎ Bump package.json version:  ${currentVersion} ->  ${checkedNewVersion}  (${pkgPath})`,
+            `  ✔︎ Create and push git tag:   ${currentTag} -> v${checkedNewVersion}`,
           ];
           return `Actions planned:\n\n${actions.join('\n')}\n\n  Is this OK?`;
         },
@@ -117,6 +99,58 @@ async function main() {
     ])
     .then((answers) => {
       console.table(answers);
+      if (answers.confirm) {
+        const {
+          currentTag,
+          currentTagVersion,
+          newTag,
+          newTagVersion,
+          currentVersion,
+          newVersion,
+          checkedNewVersion,
+          pkgPath,
+        } = calculateNextVersion(answers.releaseType);
+        if (newVersion !== newTagVersion) {
+          console.log('tag / version mismatch');
+          if (semver.lt(currentVersion, currentTagVersion))
+            console.log('Updating pkg version to', currentTagVersion);
+          process.exit(0);
+
+          execSync(
+            `npm version ${currentTagVersion} --git-tag-version=false && git add ${pkgPath} && git commit --amend --no-edit`,
+            { encoding: 'utf-8', stdio: 'inherit' }
+          );
+        }
+        // Tag / version matches
+        try {
+          console.log('✨Bumping npm version and creating git tag');
+          execSync(`npm version ${releaseType}`, {
+            encoding: 'utf-8',
+            stdio: 'inherit',
+          });
+          console.log('✨Pushing git tag');
+          execSync(`git push origin --tags`, {
+            encoding: 'utf-8',
+            stdio: 'inherit',
+          });
+          const repoName = execSync(`git config --get remote.origin.url`, {
+            encoding: 'utf-8',
+          }).match(/([a-z0-9_-]*\/[a-z0-9_-]*)/);
+          if (repoName?.length) {
+            console.log(
+              `✨Tag created successfully\n\n  Create new release:\n  https://github.com/${repoName[0]}/releases/new?tag=${newTag}\n`
+            );
+          }
+          process.exit(0);
+        } catch (err) {
+          console.error('\x1b[41m%s\x1b[0m', 'Error:');
+          console.error(err);
+          process.exit(1);
+        }
+      } else {
+        console.log('\x1b[36m%s\x1b[0m', '\nNo actions performed\n');
+        process.exit(0);
+      }
     });
 
   process.exit(0);
@@ -274,6 +308,12 @@ function calculateNextVersion(releaseType: ReleaseType) {
   const newVersion = semver.inc(currentVersion, releaseType)!;
   const newTagVersion = semver.inc(currentTag, releaseType);
   const newTag = `v${newTagVersion}`;
+
+  const checkedNewVersion =
+    newVersion !== newTagVersion && semver.gt(newVersion, newTag)
+      ? newVersion
+      : newTagVersion;
+
   return {
     /** Latest git tag, e.g. 'v1.0.0' */
     currentTag,
@@ -289,5 +329,16 @@ function calculateNextVersion(releaseType: ReleaseType) {
     newTagVersion,
     /** The absolute file path to package.json */
     pkgPath,
+    /**
+     * Next new version that matches both pkg version and git tag.
+     *
+     * @example
+     * releaseType is set to    'patch'
+     * package.json version is  '1.0.0'
+     * current git tag is      'v1.0.3'
+     *
+     * const checkedNewVersion = '1.0.4'
+     * */
+    checkedNewVersion,
   };
 }
