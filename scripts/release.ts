@@ -37,52 +37,6 @@ async function main() {
         default: releaseType,
         choices: VERSION_TYPES,
       },
-      //       {
-      //         name: 'updatePkgVersion',
-      //         type: 'confirm',
-      //         when: (answers) => {
-      //           // Only show question if package.json version needs to be updated
-      //           const { newVersion, newTagVersion, newTag } = calculateNextVersion(
-      //             answers.releaseType
-      //           );
-      //           return newVersion !== newTagVersion && !semver.gt(newVersion, newTag);
-      //         },
-      //         prefix: '!',
-      //         message: (answers) => {
-      //           const { currentVersion, currentTag, pkgPath } = calculateNextVersion(
-      //             answers.releaseType
-      //           );
-      //           const currentTagVersion = currentTag.replace('v', '');
-      //           const message = `Git tag and package version mismatch!
-      //   Found:
-      //     package version:  ${currentVersion}  (${pkgPath})
-      //     git tag:         ${currentTag}
-      // `;
-      //           return `${message}\n  Update package.json version to match git tag?`;
-      //         },
-      //       },
-      //       {
-      //         name: 'createNewTag',
-      //         type: 'confirm',
-      //         when: (answers) => {
-      //           // Only display if new tag needs to be created and pushed
-      //           const { newTag, newTagVersion, newVersion } = calculateNextVersion(
-      //             answers.releaseType
-      //           );
-      //           return newVersion !== newTagVersion && semver.gt(newVersion, newTag);
-      //         },
-      //         prefix: '!',
-      //         message: (answers) => {
-      //           const { currentTag, currentVersion, pkgPath } = calculateNextVersion(
-      //             answers.releaseType
-      //           );
-      //           const message = `Git tag and package version mismatch.
-      //   Found:
-      //     package version:  ${currentVersion}  (${pkgPath})
-      //     git tag:         ${currentTag}`;
-      //           return message + '\n\n  Create and push a new annotated git tag?';
-      //         },
-      //       },
       {
         name: 'confirm',
         type: 'confirm',
@@ -90,7 +44,7 @@ async function main() {
           const { currentTag, currentVersion, checkedNewVersion, pkgPath } =
             calculateNextVersion(answers.releaseType);
           const actions = [
-            `  ✔︎ Bump package.json version:  ${currentVersion} ->  ${checkedNewVersion}  (${pkgPath})`,
+            `  ✔︎ Bump package.json version:  ${currentVersion} ->  ${checkedNewVersion} (${pkgPath})`,
             `  ✔︎ Create and push git tag:   ${currentTag} -> v${checkedNewVersion}`,
           ];
           return `Actions planned:\n\n${actions.join('\n')}\n\n  Is this OK?`;
@@ -116,8 +70,7 @@ async function main() {
              */
             if (semver.lt(currentVersion, currentTagVersion)) {
               execSync(
-                `npm version ${currentTagVersion} --git-tag-version=false && git add ${pkgPath} && git commit --amend --no-edit`,
-                { encoding: 'utf-8', stdio: 'inherit' }
+                `npm version ${currentTagVersion} --git-tag-version=false && git add ${pkgPath} && git commit --amend --no-edit && git push`
               );
             }
           }
