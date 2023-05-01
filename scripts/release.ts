@@ -80,6 +80,11 @@ async function main() {
             encoding: 'utf-8',
             stdio: 'inherit',
           });
+          console.log('✨Pushing new version');
+          execSync(`git push`, {
+            encoding: 'utf-8',
+            stdio: 'inherit',
+          });
           console.log('✨Pushing git tag');
           execSync(`git push origin --tags`, {
             encoding: 'utf-8',
