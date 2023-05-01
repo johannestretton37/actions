@@ -42,41 +42,63 @@ async function main() {
         choices: VERSION_TYPES,
       },
       {
-        name: 'performUpdate',
+        name: 'updatePkgVersion',
         type: 'confirm',
         when: (answers) => {
-          // Check if update would be valid
+          // Only show question if package.json version needs to be updated
           const latestTag = getLatestTag();
 
           newVersion = semver.inc(currentVersion, answers.releaseType)!;
           newTag = `v${semver.inc(latestTag, answers.releaseType)}`;
-          return `v${newVersion}` !== newTag;
+          return (
+            `v${newVersion}` !== newTag && !semver.gt(newVersion ?? '', newTag)
+          );
         },
-        prefix: '💥',
-        message: (answers) => {
+        prefix: '!',
+        message: () => {
           const latestTag = getLatestTag();
-
-          newVersion = semver.inc(currentVersion, answers.releaseType)!;
-          newTag = `v${semver.inc(latestTag, answers.releaseType)}`;
-          const shouldUpdateTag = semver.gt(newVersion ?? '', newTag);
-
           const message = `Git tag and package version mismatch.
   Found:
     package version: ${currentVersion}  (${path})
     git tag:         ${latestTag}`;
-          const suggestion = shouldUpdateTag
-            ? `Create and push a new annotated git tag?`
-            : `Update package.json version to ${latestTag.replace('v', '')}?`;
-
-          return message + '\n\n  ' + suggestion;
+          return (
+            message +
+            `\n\n  Update package.json version to ${latestTag.replace(
+              'v',
+              ''
+            )}?`
+          );
+        },
+      },
+      {
+        name: 'createNewTag',
+        type: 'confirm',
+        when: (answers) => {
+          // Only display if new tag needs to be created and pushed
+          const latestTag = getLatestTag();
+          newVersion = semver.inc(currentVersion, answers.releaseType)!;
+          newTag = `v${semver.inc(latestTag, answers.releaseType)}`;
+          return (
+            `v${newVersion}` !== newTag && semver.gt(newVersion ?? '', newTag)
+          );
+        },
+        prefix: '!',
+        message: (answers) => {
+          const latestTag = getLatestTag();
+          const message = `Git tag and package version mismatch.
+  Found:
+    package version: ${currentVersion}  (${path})
+    git tag:         ${latestTag}`;
+          return message + '\n\n  Create and push a new annotated git tag?';
         },
       },
       {
         name: 'confirm',
         type: 'confirm',
-        message: (answers, a, b) => {
-          console.log(answers, a, b);
-          return `Actions planned:\n
+        message: (answers) => {
+          console.log('here we are');
+          console.table(answers);
+          return `TODO: Actions planned:\n
   ✔︎ Bump package.json version from: ${currentVersion} -> ${newVersion}
   ✔︎ Create and push git tag: ${newTag}
 
