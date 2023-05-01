@@ -1,6 +1,6 @@
 {
   "name": "actions",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "Let's go 🚀",
   "main": "index.js",
   "scripts": {
