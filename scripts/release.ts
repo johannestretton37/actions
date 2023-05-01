@@ -107,13 +107,11 @@ async function main() {
               checkedNewVersion = newTagVersion;
             }
           }
-
           const actions = [
             `  ✔︎ Bump package.json version to: ${checkedNewVersion}`,
             `  ✔︎ Create and push git tag:     v${checkedNewVersion}`,
-          ].filter(Boolean);
-          return `TODO: Actions planned:\n${actions.join('\n')}\n\n  Is this OK?
-`;
+          ];
+          return `Actions planned:\n\n${actions.join('\n')}\n\n  Is this OK?`;
         },
       },
     ])
