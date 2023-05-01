@@ -97,9 +97,21 @@ async function main() {
             newVersion,
             pkgPath,
           } = calculateNextVersion(answers.releaseType);
+          console.table({
+            currentTag,
+            currentTagVersion,
+            newTag,
+            currentVersion,
+            newVersion,
+            pkgPath,
+          });
+
           const actions = [
             answers.updatePkgVersion
               ? `  ✔︎ Bump package.json version to: ${newVersion}`
+              : null,
+            answers.createNewTag
+              ? `  ✔︎ Create and push git tag:    v${newVersion}`
               : null,
             `  ✔︎ Create and push git tag:     ${newTag}`,
           ].filter(Boolean);
