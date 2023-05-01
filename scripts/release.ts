@@ -37,83 +37,80 @@ async function main() {
         default: releaseType,
         choices: VERSION_TYPES,
       },
-      {
-        name: 'updatePkgVersion',
-        type: 'confirm',
-        when: (answers) => {
-          // Only show question if package.json version needs to be updated
-          const { newVersion, newTagVersion, newTag } = calculateNextVersion(
-            answers.releaseType
-          );
-          return newVersion !== newTagVersion && !semver.gt(newVersion, newTag);
-        },
-        prefix: '!',
-        message: (answers) => {
-          const { currentVersion, currentTag, pkgPath } = calculateNextVersion(
-            answers.releaseType
-          );
-          const currentTagVersion = currentTag.replace('v', '');
-          const message = `Git tag and package version mismatch!
-  Found:
-    package version:  ${currentVersion}  (${pkgPath})
-    git tag:         ${currentTag}
-`;
-          return `${message}\n  Update package.json version to match git tag?`;
-        },
-      },
-      {
-        name: 'createNewTag',
-        type: 'confirm',
-        when: (answers) => {
-          // Only display if new tag needs to be created and pushed
-          const { newTag, newTagVersion, newVersion } = calculateNextVersion(
-            answers.releaseType
-          );
-          return newVersion !== newTagVersion && semver.gt(newVersion, newTag);
-        },
-        prefix: '!',
-        message: (answers) => {
-          const { currentTag, currentVersion, pkgPath } = calculateNextVersion(
-            answers.releaseType
-          );
-          const message = `Git tag and package version mismatch.
-  Found:
-    package version:  ${currentVersion}  (${pkgPath})
-    git tag:         ${currentTag}`;
-          return message + '\n\n  Create and push a new annotated git tag?';
-        },
-      },
+      //       {
+      //         name: 'updatePkgVersion',
+      //         type: 'confirm',
+      //         when: (answers) => {
+      //           // Only show question if package.json version needs to be updated
+      //           const { newVersion, newTagVersion, newTag } = calculateNextVersion(
+      //             answers.releaseType
+      //           );
+      //           return newVersion !== newTagVersion && !semver.gt(newVersion, newTag);
+      //         },
+      //         prefix: '!',
+      //         message: (answers) => {
+      //           const { currentVersion, currentTag, pkgPath } = calculateNextVersion(
+      //             answers.releaseType
+      //           );
+      //           const currentTagVersion = currentTag.replace('v', '');
+      //           const message = `Git tag and package version mismatch!
+      //   Found:
+      //     package version:  ${currentVersion}  (${pkgPath})
+      //     git tag:         ${currentTag}
+      // `;
+      //           return `${message}\n  Update package.json version to match git tag?`;
+      //         },
+      //       },
+      //       {
+      //         name: 'createNewTag',
+      //         type: 'confirm',
+      //         when: (answers) => {
+      //           // Only display if new tag needs to be created and pushed
+      //           const { newTag, newTagVersion, newVersion } = calculateNextVersion(
+      //             answers.releaseType
+      //           );
+      //           return newVersion !== newTagVersion && semver.gt(newVersion, newTag);
+      //         },
+      //         prefix: '!',
+      //         message: (answers) => {
+      //           const { currentTag, currentVersion, pkgPath } = calculateNextVersion(
+      //             answers.releaseType
+      //           );
+      //           const message = `Git tag and package version mismatch.
+      //   Found:
+      //     package version:  ${currentVersion}  (${pkgPath})
+      //     git tag:         ${currentTag}`;
+      //           return message + '\n\n  Create and push a new annotated git tag?';
+      //         },
+      //       },
       {
         name: 'confirm',
         type: 'confirm',
         message: (answers) => {
-          console.log('here we are');
-          console.table(answers);
           const {
             currentTag,
             currentTagVersion,
             newTag,
+            newTagVersion,
             currentVersion,
             newVersion,
             pkgPath,
           } = calculateNextVersion(answers.releaseType);
-          console.table({
-            currentTag,
-            currentTagVersion,
-            newTag,
-            currentVersion,
-            newVersion,
-            pkgPath,
-          });
+          let checkedNewVersion = newTagVersion;
+          if (newVersion !== newTagVersion) {
+            // Mismatch between git tag and pkg version
+            if (semver.gt(newVersion, newTag)) {
+              // git tag needs to be updated
+              checkedNewVersion = newVersion;
+            } else {
+              //package.json version needs to be updated
+              checkedNewVersion = newTagVersion;
+            }
+          }
 
           const actions = [
-            answers.updatePkgVersion
-              ? `  ✔︎ Bump package.json version to: ${newVersion}`
-              : null,
-            answers.createNewTag
-              ? `  ✔︎ Create and push git tag:    v${newVersion}`
-              : null,
-            `  ✔︎ Create and push git tag:     ${newTag}`,
+            `  ✔︎ Bump package.json version to: ${checkedNewVersion}`,
+            `  ✔︎ Create and push git tag:     v${checkedNewVersion}`,
           ].filter(Boolean);
           return `TODO: Actions planned:\n${actions.join('\n')}\n\n  Is this OK?
 `;
