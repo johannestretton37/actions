@@ -99,7 +99,7 @@ async function main() {
             );
             console.log(
               '\x1b[36m%s\x1b[0m',
-              `  https://github.com/${repoName[0]}/releases/new?tag=v${checkedNewVersion}&title=Release%20v${checkedNewVersion}\n`
+              `  https://github.com/${repoName[0]}/releases/new?tag=v${checkedNewVersion}&title=Release%20v${checkedNewVersion}&body=body=%23%20Release%20v${checkedNewVersion}\n`
             );
           }
           process.exit(0);
