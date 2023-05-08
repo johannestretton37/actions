@@ -1,7 +1,7 @@
 name: Fetch latest tags and start nightly deploy
 on:
   schedule:
-    - cron: '42 * * * *'
+    - cron: '* * * * *'
   workflow_dispatch:
     inputs:
       storefront:
