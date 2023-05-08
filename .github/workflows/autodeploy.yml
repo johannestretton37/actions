@@ -1,0 +1,34 @@
+name: Fetch latest tags and start nightly deploy
+on:
+  schedule:
+    - cron: '10 * * * *'
+  workflow_dispatch:
+    inputs:
+      storefront:
+        description: Deploy or not?
+        type: boolean
+        default: true
+
+jobs:
+  get-tags:
+    runs-on: ubuntu-latest
+    outputs:
+      STOREFRONT_TAG: ${{ steps.latest-tags.outputs.STOREFRONT_TAG }}
+    steps:
+      - name: Debug
+        run: env
+        continue-on-error: true
+      - name: Get latest tags
+        id: latest-tags
+        run: |
+          echo "STOREFRONT_TAG=v1.2.3" >> $GITHUB_OUTPUT
+  trigger-deploy:
+    name: Trigger deploy
+    needs: get-tags
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test it
+        env:
+          storefront_tag: ${{ (github.event.schedule || inputs.storefront) && needs.get-tags.outputs.STOREFRONT_TAG || '' }}
+        run: |
+          echo "HEY ${{ env.storefront_tag }}"
