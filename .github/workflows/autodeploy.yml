@@ -16,7 +16,8 @@ jobs:
       STOREFRONT_TAG: ${{ steps.latest-tags.outputs.STOREFRONT_TAG }}
     steps:
       - name: Debug
-        run: env
+        run: |
+          echo ${{ toJSON(github.event) }}
         continue-on-error: true
       - name: Get latest tags
         id: latest-tags
