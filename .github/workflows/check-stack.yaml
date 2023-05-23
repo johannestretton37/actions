@@ -14,8 +14,7 @@ jobs:
       - name: Check if stack exists
         id: select-stack
         run: |
-          STACK_EXISTS=$({ pulumi stack select pr -C operations/deploy && echo yes } || { echo no })
-          echo "STACK_EXISTS=$STACK_EXISTS" >> $GITHUB_OUTPUT
+          { pulumi stack select pr -C operations/deploy && echo "STACK_EXISTS=yes" >> $GITHUB_OUTPUT } || { echo "STACK_EXISTS=no" >> $GITHUB_OUTPUT }
 
   create-stack:
     name: Create PR stack
