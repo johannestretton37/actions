@@ -1,0 +1,33 @@
+name: Check stack
+
+on:
+  push:
+
+jobs:
+  check-stack:
+    name: Check pulumi stack
+    runs-on: ubuntu-latest
+    outputs:
+      STACK_EXISTS: ${{ steps.select-stack.outputs.STACK_EXISTS }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check if stack exists
+        id: select-stack
+        run: |
+          echo "STACK_EXISTS=$({ pulumi stack select pr -C operations/deploy && echo yes } || { echo no })" >> $GITHUB_OUTPUT
+
+  create-stack:
+    name: Create PR stack
+    runs-on: ubuntu-latest
+    needs: check-stack
+    if: needs.check-stack.outputs.STACK_EXISTS == 'no'
+    steps:
+      - run: echo creating
+
+  remove-stack:
+    name: Remove PR stack
+    runs-on: ubuntu-latest
+    needs: check-stack
+    if: needs.check-stack.outputs.STACK_EXISTS == 'yes'
+    steps:
+      - run: echo "already exists, delete!"
