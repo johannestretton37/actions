@@ -1,0 +1,29 @@
+name: stale stacks
+
+on:
+  push:
+
+jobs:
+  find-stale-stacks:
+    runs-on: ubuntu-latest
+    outputs:
+      staleStacks: ${{ steps.stale-stacks.outputs.STALE_STACKS }}
+    steps:
+      - name: Find open PRs
+        id: stale-stacks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "STALE_STACKS=[\"pr-1\"]" >> $GITHUB_OUTPUT
+      - name: Echo
+        run: |
+          echo ${{ steps.stale-stacks.outputs.STALE_STACKS }}
+  remove-stacks:
+    runs-on: ubuntu-latest
+    needs: find-stale-stacks
+    strategy:
+      matrix:
+        STACK_NAME: ${{ fromJSON(needs.find-stale-stacks.outputs.staleStacks) }}
+    steps:
+      - name: Remove stack ${{ matrix.STACK_NAME }}
+        run: echo "Removing stack ${{ matrix.STACK_NAME }}"
