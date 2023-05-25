@@ -8,7 +8,7 @@ jobs:
     name: Check pulumi stack
     runs-on: ubuntu-latest
     outputs:
-      SHOULD_CREATE_STACK: ${{ steps.result.outputs.SHOULD_CREATE_STACK }}
+      SHOULD_CREATE_STACK: ${{ steps.select-stack.outcome == 'failure' }}
     steps:
       - uses: actions/checkout@v3
       - name: Check if stack exists
@@ -16,10 +16,6 @@ jobs:
         continue-on-error: true
         run: |
           exit 1;
-      - name: set status
-        id: result
-        run: |
-          echo SHOULD_CREATE_STACK=${{ steps.select-stack.outcome == 'failure' }} >> $GITHUB_OUTPUT
 
   create-stack:
     name: Create PR stack
