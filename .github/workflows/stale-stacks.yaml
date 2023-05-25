@@ -9,12 +9,13 @@ jobs:
     outputs:
       staleStacks: ${{ steps.stale-stacks.outputs.STALE_STACKS }}
     steps:
+      - uses: actions/checkout@v3
       - name: Find open PRs
         id: stale-stacks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo 'STALE_STACKS=["pr-1"]' >> $GITHUB_OUTPUT
+          echo STALE_STACKS=$(comm -23 old_pulumi_stacks.txt open_pull_requests.txt | jq -c --raw-input --slurp 'split("\n") | map(select(. != ""))') >> $GITHUB_OUTPUT
       - name: Echo
         run: |
           echo ${{ steps.stale-stacks.outputs.STALE_STACKS }}
