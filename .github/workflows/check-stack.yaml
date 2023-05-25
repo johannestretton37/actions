@@ -7,19 +7,25 @@ jobs:
   check-stack:
     name: Check pulumi stack
     runs-on: ubuntu-latest
-    continue-on-error: true
+    outputs:
+      SHOULD_CREATE_STACK: ${{ steps.result.outputs.SHOULD_CREATE_STACK }}
     steps:
       - uses: actions/checkout@v3
       - name: Check if stack exists
         id: select-stack
+        continue-on-error: true
         run: |
           exit 1;
+      - name: set status
+        id: result
+        run: |
+          echo SHOULD_CREATE_STACK=${{ steps.select-stack.outcome == 'failure' }} >> $GITHUB_OUTPUT
 
   create-stack:
     name: Create PR stack
     runs-on: ubuntu-latest
     needs: check-stack
-    if: needs.check-stack.outcome == 'failure'
+    if: needs.check-stack.outputs.SHOULD_CREATE_STACK
     steps:
       - run: echo creating
 
@@ -27,6 +33,6 @@ jobs:
     name: Remove PR stack
     runs-on: ubuntu-latest
     needs: check-stack
-    if: success()
+    if: needs.check-stack.outputs.SHOULD_CREATE_STACK == false
     steps:
       - run: echo "already exists, delete!"
