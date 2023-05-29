@@ -15,7 +15,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "pr-123321\n" > generated.txt
+          echo "\n" > generated.txt
           echo STALE_STACKS=$(comm -23 old_pulumi_stacks.txt open_pull_requests.txt | jq -c --raw-input --slurp 'split("\n") | map(select(. != ""))') >> $GITHUB_OUTPUT
           cat generated.txt
       - name: Echo
@@ -24,6 +24,7 @@ jobs:
   remove-stacks:
     runs-on: ubuntu-latest
     needs: find-stale-stacks
+    if: ${{ fromJSON(needs.find-stale-stacks.outputs.staleStacks).length > 0 }}
     strategy:
       matrix:
         STACK_NAME: ${{ fromJSON(needs.find-stale-stacks.outputs.staleStacks) }}

@@ -38,13 +38,3 @@ jobs:
     if: needs.check-stack.outputs.SHOULD_CREATE_STACK == false
     steps:
       - run: echo "already exists, delete!"
-
-  remove-stacks:
-    name: Remove stacks
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        STACK_NAME: ${{ fromJSON('[]') }}
-    steps:
-      - name: Run it
-        run: echo "Hello ${{ matrix.STACK_NAME }}"
