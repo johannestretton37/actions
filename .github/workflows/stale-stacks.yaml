@@ -24,7 +24,7 @@ jobs:
   remove-stacks:
     runs-on: ubuntu-latest
     needs: find-stale-stacks
-    if: ${{ needs.find-stale-stacks.outputs.staleStacks == '[]' }}
+    if: ${{ needs.find-stale-stacks.outputs.staleStacks != '[]' }}
     strategy:
       matrix:
         STACK_NAME: ${{ fromJSON(needs.find-stale-stacks.outputs.staleStacks) }}
