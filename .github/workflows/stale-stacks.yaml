@@ -15,7 +15,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "\n" > generated.txt
+          echo "pr-123456\n" > generated.txt
           echo STALE_STACKS=$(comm -23 old_pulumi_stacks.txt open_pull_requests.txt | jq -c --raw-input --slurp 'split("\n") | map(select(. != ""))') >> $GITHUB_OUTPUT
           cat generated.txt
       - name: Echo
