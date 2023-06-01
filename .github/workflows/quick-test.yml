@@ -1,4 +1,5 @@
 name: Quick test
+run-name: Deploy ${{ github.ref_name }} and ${{ inputs.first }}
 
 on:
   push:
@@ -10,7 +11,6 @@ on:
       second:
         description: second
         type: string
-      
 
 jobs:
   first:
