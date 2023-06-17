@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "lib",
+    "declaration": true,
+    "sourceRoot": "src",
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ES2022", "DOM"],
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "skipLibCheck": true
+  }
+}

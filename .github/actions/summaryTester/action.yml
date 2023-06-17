@@ -1,0 +1,9 @@
+name: 'Test summary'
+description: 'Test summary with GitHub Actions'
+branding:
+  icon: activity
+  color: green
+author: 'Johannes'
+runs:
+  using: node16
+  main: lib/index.js

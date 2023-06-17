@@ -1,0 +1,11 @@
+name: Test summary action
+on:
+  push:
+jobs:
+  run-the-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Validate images
+        uses: ./.github/actions/test-summary
