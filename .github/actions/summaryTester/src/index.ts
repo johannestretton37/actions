@@ -37,6 +37,7 @@ async function main() {
       return row;
     }),
   ]);
+  await summary.write();
 }
 
 main().then(() => console.log('done'));
