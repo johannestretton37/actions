@@ -8,4 +8,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Validate images
-        uses: ./.github/actions/test-summary
+        uses: ./.github/actions/summaryTester
