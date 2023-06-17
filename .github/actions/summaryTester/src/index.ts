@@ -38,6 +38,7 @@ async function main() {
     }),
   ]);
   await summary.write();
+  throw new Error('just testing');
 }
 
 main().then(() => console.log('done'));

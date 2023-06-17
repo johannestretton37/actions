@@ -2244,5 +2244,6 @@ async function main() {
     })
   ]);
   await import_core.summary.write();
+  throw new Error("just testing");
 }
 main().then(() => console.log("done"));
