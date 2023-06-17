@@ -2243,6 +2243,7 @@ async function main() {
       return row;
     })
   ]);
+  console.log(import_core.summary.stringify());
   await import_core.summary.write();
 }
 main().then(() => console.log("done"));
