@@ -21,7 +21,7 @@ const details = [
 ];
 
 async function main() {
-  summary.addRaw('## Validate images');
+  summary.addRaw('## Validate images\n\n');
   summary.addTable([
     [
       { data: 'Image exists', header: true },
@@ -32,7 +32,7 @@ async function main() {
         {
           data: detail.exists ? '✅' : '❌',
         },
-        { data: detail.imageName },
+        { data: `\`${detail.imageName}\`` },
       ];
       return row;
     }),

@@ -2227,7 +2227,7 @@ var details = [
   }
 ];
 async function main() {
-  import_core.summary.addRaw("## Validate images");
+  import_core.summary.addRaw("## Validate images\n\n");
   import_core.summary.addTable([
     [
       { data: "Image exists", header: true },
@@ -2238,7 +2238,7 @@ async function main() {
         {
           data: detail.exists ? "\u2705" : "\u274C"
         },
-        { data: detail.imageName }
+        { data: `\`${detail.imageName}\`` }
       ];
       return row;
     })
