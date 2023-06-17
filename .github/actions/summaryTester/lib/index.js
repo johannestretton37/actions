@@ -2230,15 +2230,15 @@ async function main() {
   import_core.summary.addHeading("Validate images", 2);
   import_core.summary.addTable([
     [
-      { data: "Image tag", header: true },
-      { data: "Exists", header: true }
+      { data: "Image exists", header: true },
+      { data: "Image tag", header: true }
     ],
     ...details.map((detail) => {
       const row = [
-        { data: `<code>${detail.imageName}</code>` },
         {
           data: detail.exists ? "\u2705" : "\u274C"
-        }
+        },
+        { data: `<code>${detail.imageName}</code>` }
       ];
       return row;
     })

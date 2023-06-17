@@ -24,15 +24,15 @@ async function main() {
   summary.addHeading('Validate images', 2);
   summary.addTable([
     [
+      { data: 'Image exists', header: true },
       { data: 'Image tag', header: true },
-      { data: 'Exists', header: true },
     ],
     ...details.map((detail) => {
       const row: SummaryTableRow = [
-        { data: `<code>${detail.imageName}</code>` },
         {
           data: detail.exists ? '✅' : '❌',
         },
+        { data: `<code>${detail.imageName}</code>` },
       ];
       return row;
     }),
