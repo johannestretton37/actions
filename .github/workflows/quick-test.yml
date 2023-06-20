@@ -11,7 +11,7 @@ jobs:
       - name: build
         run: |
           export IMAGE_TAG=$(git rev-parse --short=7 HEAD)
-          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "IMAGE_TAG=hahahaha$IMAGE_TAG" >> $GITHUB_ENV
           buildDate=$(date) ./build.sh
 
       - name: echo
