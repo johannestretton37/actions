@@ -1,28 +1,18 @@
 name: Quick test
-run-name: Deploy ${{ github.ref_name }} and ${{ inputs.first }}
 
 on:
   push:
-  workflow_dispatch:
-    inputs:
-      first:
-        description: first
-        type: string
-      second:
-        description: second
-        type: string
 
 jobs:
   first:
     runs-on: ubuntu-latest
-    if: inputs.first
     steps:
-      - name: First job
-        run: echo "first"
-  second:
-    runs-on: ubuntu-latest
-    needs: first
-    if: always() && inputs.second
-    steps:
-      - name: Second job
-        run: echo "second"
+      - name: build
+        run: |
+          export IMAGE_TAG=$(git rev-parse --short=7 HEAD)
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          buildDate=$(date) ./build.sh
+
+      - name: echo
+        run: |
+          echo "IMAGE_TAG  \`${{ github.env.IMAGE_TAG || '' }}\`" >> $GITHUB_STEP_SUMMARY
