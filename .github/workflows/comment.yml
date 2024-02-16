@@ -20,14 +20,18 @@ jobs:
         env:
           PR_CONTEXT: ${{ toJson(github.event.pull_request) }}
         run: echo "$PR_CONTEXT"
+      - name: Branch name
+        run: 'echo "${{ github.head_ref }}"'
+      - name: PR number
+        run: 'echo "${{ github.event.number }}"'
       - name: 'Github Script v5 test'
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             github.rest.issues.createComment({
-              issue_number: github.event.pull_request.number,
-              owner: github.repo.owner,
-              repo: github.repo.repo,
-              body: github.ref_name
+              issue_number: github.event.number,
+              owner: github.repository_owner,
+              repo: github.repository,
+              body: github.head_ref
             })
