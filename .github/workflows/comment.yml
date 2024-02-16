@@ -1,0 +1,37 @@
+name: Add comment with ticket
+
+on:
+  pull_request:
+    # types: 'opened'
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Echo branch name'
+        run: 'echo "Branch ref_name: ${{ github.ref_name }}."'
+      - name: 'Echo branch name'
+        run: 'echo "Branch ref: ${{ github.ref }}."'
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump pr context
+        env:
+          PR_CONTEXT: ${{ toJson(github.event.pull_request) }}
+        run: echo "$PR_CONTEXT"
+      - name: Branch name
+        run: 'echo "${{ github.head_ref }}"'
+      - name: PR number
+        run: 'echo "${{ github.event.number }}"'
+      - name: 'Github Script v5 test'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: github.event.number,
+              owner: github.repository_owner,
+              repo: github.repository,
+              body: github.head_ref
+            })
