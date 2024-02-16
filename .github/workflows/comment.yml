@@ -1,0 +1,23 @@
+name: Add comment with ticket
+
+on:
+  pull_request:
+    types: 'opened'
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Echo branch name'
+        run: 'echo "Branch name: "${{ github.ref_name }}".'
+      - name: 'Github Script v5 test'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.payload.client_payload.pullRequestId,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: context.payload.client_payload.message
+            })
